@@ -1,0 +1,276 @@
+{
+  "input": {
+    "array": [64, 25, 12, 22, 11]
+  },
+  "meta": {
+    "algorithm": "Insertion Sort",
+    "steps": [
+      {
+        "step_number": 1,
+        "actions": [
+          "Start Insertion Sort. First element 64 is already in sorted position.",
+          "Begin with second element 25. Compare with sorted portion."
+        ],
+        "state": { 
+          "current_pass": 1,
+          "current_element": 25,
+          "current_index": 1,
+          "key_index": 1,
+          "comparing_index": 0,
+          "swapped": false,
+          "array": [64, 25, 12, 22, 11],
+          "sorted_count": 1,
+          "comparing": [0, 1]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 2,
+        "actions": [
+          "Compare 25 with 64. Since 25 < 64, shift 64 to the right.",
+          "Insert 25 at position 0. Array becomes [25, 64, 12, 22, 11]."
+        ],
+        "state": { 
+          "current_pass": 1,
+          "current_element": 25,
+          "current_index": 1,
+          "key_index": 1,
+          "comparing_index": 0,
+          "swapped": true,
+          "array": [25, 64, 12, 22, 11],
+          "sorted_count": 2,
+          "comparing": [0, 1]
+        },
+        "next_suggestion": "pass_complete"
+      },
+      {
+        "step_number": 3,
+        "actions": [
+          "Pass 1 complete. Sorted portion: [25, 64].",
+          "Start Pass 2. Take element 12 at index 2."
+        ],
+        "state": { 
+          "current_pass": 2,
+          "current_element": 12,
+          "current_index": 2,
+          "key_index": 2,
+          "comparing_index": 1,
+          "swapped": false,
+          "array": [25, 64, 12, 22, 11],
+          "sorted_count": 2,
+          "comparing": [1, 2]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 4,
+        "actions": [
+          "Compare 12 with 64. Since 12 < 64, shift 64 to the right.",
+          "Array becomes [25, 64, 64, 22, 11] (temporarily)."
+        ],
+        "state": { 
+          "current_pass": 2,
+          "current_element": 12,
+          "current_index": 2,
+          "key_index": 2,
+          "comparing_index": 1,
+          "swapped": false,
+          "array": [25, 64, 12, 22, 11],
+          "sorted_count": 2,
+          "comparing": [1, 2]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 5,
+        "actions": [
+          "Compare 12 with 25. Since 12 < 25, shift 25 to the right.",
+          "Insert 12 at position 0. Array becomes [12, 25, 64, 22, 11]."
+        ],
+        "state": { 
+          "current_pass": 2,
+          "current_element": 12,
+          "current_index": 2,
+          "key_index": 2,
+          "comparing_index": 0,
+          "swapped": true,
+          "array": [12, 25, 64, 22, 11],
+          "sorted_count": 3,
+          "comparing": [0, 2]
+        },
+        "next_suggestion": "pass_complete"
+      },
+      {
+        "step_number": 6,
+        "actions": [
+          "Pass 2 complete. Sorted portion: [12, 25, 64].",
+          "Start Pass 3. Take element 22 at index 3."
+        ],
+        "state": { 
+          "current_pass": 3,
+          "current_element": 22,
+          "current_index": 3,
+          "key_index": 3,
+          "comparing_index": 2,
+          "swapped": false,
+          "array": [12, 25, 64, 22, 11],
+          "sorted_count": 3,
+          "comparing": [2, 3]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 7,
+        "actions": [
+          "Compare 22 with 64. Since 22 < 64, shift 64 to the right.",
+          "Array becomes [12, 25, 64, 64, 11] (temporarily)."
+        ],
+        "state": { 
+          "current_pass": 3,
+          "current_element": 22,
+          "current_index": 3,
+          "key_index": 3,
+          "comparing_index": 2,
+          "swapped": false,
+          "array": [12, 25, 64, 22, 11],
+          "sorted_count": 3,
+          "comparing": [2, 3]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 8,
+        "actions": [
+          "Compare 22 with 25. Since 22 < 25, shift 25 to the right.",
+          "Insert 22 at position 1. Array becomes [12, 22, 25, 64, 11]."
+        ],
+        "state": { 
+          "current_pass": 3,
+          "current_element": 22,
+          "current_index": 3,
+          "key_index": 3,
+          "comparing_index": 1,
+          "swapped": true,
+          "array": [12, 22, 25, 64, 11],
+          "sorted_count": 4,
+          "comparing": [1, 3]
+        },
+        "next_suggestion": "pass_complete"
+      },
+      {
+        "step_number": 9,
+        "actions": [
+          "Pass 3 complete. Sorted portion: [12, 22, 25, 64].",
+          "Start Pass 4. Take element 11 at index 4."
+        ],
+        "state": { 
+          "current_pass": 4,
+          "current_element": 11,
+          "current_index": 4,
+          "key_index": 4,
+          "comparing_index": 3,
+          "swapped": false,
+          "array": [12, 22, 25, 64, 11],
+          "sorted_count": 4,
+          "comparing": [3, 4]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 10,
+        "actions": [
+          "Compare 11 with 64. Since 11 < 64, shift 64 to the right.",
+          "Array becomes [12, 22, 25, 64, 64] (temporarily)."
+        ],
+        "state": { 
+          "current_pass": 4,
+          "current_element": 11,
+          "current_index": 4,
+          "key_index": 4,
+          "comparing_index": 3,
+          "swapped": false,
+          "array": [12, 22, 25, 64, 11],
+          "sorted_count": 4,
+          "comparing": [3, 4]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 11,
+        "actions": [
+          "Compare 11 with 25. Since 11 < 25, shift 25 to the right.",
+          "Array becomes [12, 22, 25, 25, 64] (temporarily)."
+        ],
+        "state": { 
+          "current_pass": 4,
+          "current_element": 11,
+          "current_index": 4,
+          "key_index": 4,
+          "comparing_index": 2,
+          "swapped": false,
+          "array": [12, 22, 25, 64, 11],
+          "sorted_count": 4,
+          "comparing": [2, 4]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 12,
+        "actions": [
+          "Compare 11 with 22. Since 11 < 22, shift 22 to the right.",
+          "Array becomes [12, 22, 22, 25, 64] (temporarily)."
+        ],
+        "state": { 
+          "current_pass": 4,
+          "current_element": 11,
+          "current_index": 4,
+          "key_index": 4,
+          "comparing_index": 1,
+          "swapped": false,
+          "array": [12, 22, 25, 64, 11],
+          "sorted_count": 4,
+          "comparing": [1, 4]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 13,
+        "actions": [
+          "Compare 11 with 12. Since 11 < 12, shift 12 to the right.",
+          "Insert 11 at position 0. Array becomes [11, 12, 22, 25, 64]."
+        ],
+        "state": { 
+          "current_pass": 4,
+          "current_element": 11,
+          "current_index": 4,
+          "key_index": 4,
+          "comparing_index": 0,
+          "swapped": true,
+          "array": [11, 12, 22, 25, 64],
+          "sorted_count": 5,
+          "comparing": [0, 4]
+        },
+        "next_suggestion": "complete"
+      },
+      {
+        "step_number": 14,
+        "actions": [
+          "Insertion Sort complete! Array is now sorted: [11, 12, 22, 25, 64].",
+          "All elements are in ascending order."
+        ],
+        "state": { 
+          "current_pass": 4,
+          "current_element": 11,
+          "current_index": 4,
+          "key_index": 4,
+          "comparing_index": 0,
+          "swapped": false,
+          "array": [11, 12, 22, 25, 64],
+          "sorted_count": 5,
+          "comparing": []
+        },
+        "next_suggestion": null
+      }
+    ]
+  }
+}

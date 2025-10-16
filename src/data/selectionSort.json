@@ -1,0 +1,352 @@
+{
+  "input": {
+    "array": [64, 25, 12, 22, 11]
+  },
+  "meta": {
+    "algorithm": "Selection Sort",
+    "steps": [
+      {
+        "step_number": 1,
+        "actions": [
+          "Start Selection Sort. Find minimum element in unsorted portion.",
+          "Compare elements starting from index 0. Current minimum: 64 at index 0."
+        ],
+        "state": { 
+          "current_pass": 1,
+          "current_index": 0,
+          "min_index": 0,
+          "min_value": 64,
+          "swapped": false,
+          "array": [64, 25, 12, 22, 11],
+          "sorted_count": 0,
+          "comparing": [0]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 2,
+        "actions": [
+          "Compare 64 with 25. Since 25 < 64, update minimum to 25 at index 1.",
+          "New minimum: 25 at index 1."
+        ],
+        "state": { 
+          "current_pass": 1,
+          "current_index": 1,
+          "min_index": 1,
+          "min_value": 25,
+          "swapped": false,
+          "array": [64, 25, 12, 22, 11],
+          "sorted_count": 0,
+          "comparing": [0, 1]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 3,
+        "actions": [
+          "Compare 25 with 12. Since 12 < 25, update minimum to 12 at index 2.",
+          "New minimum: 12 at index 2."
+        ],
+        "state": { 
+          "current_pass": 1,
+          "current_index": 2,
+          "min_index": 2,
+          "min_value": 12,
+          "swapped": false,
+          "array": [64, 25, 12, 22, 11],
+          "sorted_count": 0,
+          "comparing": [1, 2]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 4,
+        "actions": [
+          "Compare 12 with 22. Since 12 < 22, minimum remains 12 at index 2.",
+          "Minimum unchanged: 12 at index 2."
+        ],
+        "state": { 
+          "current_pass": 1,
+          "current_index": 3,
+          "min_index": 2,
+          "min_value": 12,
+          "swapped": false,
+          "array": [64, 25, 12, 22, 11],
+          "sorted_count": 0,
+          "comparing": [2, 3]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 5,
+        "actions": [
+          "Compare 12 with 11. Since 11 < 12, update minimum to 11 at index 4.",
+          "New minimum: 11 at index 4."
+        ],
+        "state": { 
+          "current_pass": 1,
+          "current_index": 4,
+          "min_index": 4,
+          "min_value": 11,
+          "swapped": false,
+          "array": [64, 25, 12, 22, 11],
+          "sorted_count": 0,
+          "comparing": [2, 4]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 6,
+        "actions": [
+          "Pass 1 complete. Minimum element 11 found at index 4.",
+          "Swap elements at positions 0 and 4. Array becomes [11, 25, 12, 22, 64]."
+        ],
+        "state": { 
+          "current_pass": 1,
+          "current_index": 4,
+          "min_index": 4,
+          "min_value": 11,
+          "swapped": true,
+          "array": [11, 25, 12, 22, 64],
+          "sorted_count": 1,
+          "comparing": [0, 4]
+        },
+        "next_suggestion": "pass_complete"
+      },
+      {
+        "step_number": 7,
+        "actions": [
+          "Start Pass 2. Find minimum in unsorted portion [25, 12, 22, 64].",
+          "Current minimum: 25 at index 1."
+        ],
+        "state": { 
+          "current_pass": 2,
+          "current_index": 1,
+          "min_index": 1,
+          "min_value": 25,
+          "swapped": false,
+          "array": [11, 25, 12, 22, 64],
+          "sorted_count": 1,
+          "comparing": [1]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 8,
+        "actions": [
+          "Compare 25 with 12. Since 12 < 25, update minimum to 12 at index 2.",
+          "New minimum: 12 at index 2."
+        ],
+        "state": { 
+          "current_pass": 2,
+          "current_index": 2,
+          "min_index": 2,
+          "min_value": 12,
+          "swapped": false,
+          "array": [11, 25, 12, 22, 64],
+          "sorted_count": 1,
+          "comparing": [1, 2]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 9,
+        "actions": [
+          "Compare 12 with 22. Since 12 < 22, minimum remains 12 at index 2.",
+          "Minimum unchanged: 12 at index 2."
+        ],
+        "state": { 
+          "current_pass": 2,
+          "current_index": 3,
+          "min_index": 2,
+          "min_value": 12,
+          "swapped": false,
+          "array": [11, 25, 12, 22, 64],
+          "sorted_count": 1,
+          "comparing": [2, 3]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 10,
+        "actions": [
+          "Compare 12 with 64. Since 12 < 64, minimum remains 12 at index 2.",
+          "Minimum unchanged: 12 at index 2."
+        ],
+        "state": { 
+          "current_pass": 2,
+          "current_index": 4,
+          "min_index": 2,
+          "min_value": 12,
+          "swapped": false,
+          "array": [11, 25, 12, 22, 64],
+          "sorted_count": 1,
+          "comparing": [2, 4]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 11,
+        "actions": [
+          "Pass 2 complete. Minimum element 12 found at index 2.",
+          "Swap elements at positions 1 and 2. Array becomes [11, 12, 25, 22, 64]."
+        ],
+        "state": { 
+          "current_pass": 2,
+          "current_index": 4,
+          "min_index": 2,
+          "min_value": 12,
+          "swapped": true,
+          "array": [11, 12, 25, 22, 64],
+          "sorted_count": 2,
+          "comparing": [1, 2]
+        },
+        "next_suggestion": "pass_complete"
+      },
+      {
+        "step_number": 12,
+        "actions": [
+          "Start Pass 3. Find minimum in unsorted portion [25, 22, 64].",
+          "Current minimum: 25 at index 2."
+        ],
+        "state": { 
+          "current_pass": 3,
+          "current_index": 2,
+          "min_index": 2,
+          "min_value": 25,
+          "swapped": false,
+          "array": [11, 12, 25, 22, 64],
+          "sorted_count": 2,
+          "comparing": [2]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 13,
+        "actions": [
+          "Compare 25 with 22. Since 22 < 25, update minimum to 22 at index 3.",
+          "New minimum: 22 at index 3."
+        ],
+        "state": { 
+          "current_pass": 3,
+          "current_index": 3,
+          "min_index": 3,
+          "min_value": 22,
+          "swapped": false,
+          "array": [11, 12, 25, 22, 64],
+          "sorted_count": 2,
+          "comparing": [2, 3]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 14,
+        "actions": [
+          "Compare 22 with 64. Since 22 < 64, minimum remains 22 at index 3.",
+          "Minimum unchanged: 22 at index 3."
+        ],
+        "state": { 
+          "current_pass": 3,
+          "current_index": 4,
+          "min_index": 3,
+          "min_value": 22,
+          "swapped": false,
+          "array": [11, 12, 25, 22, 64],
+          "sorted_count": 2,
+          "comparing": [3, 4]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 15,
+        "actions": [
+          "Pass 3 complete. Minimum element 22 found at index 3.",
+          "Swap elements at positions 2 and 3. Array becomes [11, 12, 22, 25, 64]."
+        ],
+        "state": { 
+          "current_pass": 3,
+          "current_index": 4,
+          "min_index": 3,
+          "min_value": 22,
+          "swapped": true,
+          "array": [11, 12, 22, 25, 64],
+          "sorted_count": 3,
+          "comparing": [2, 3]
+        },
+        "next_suggestion": "pass_complete"
+      },
+      {
+        "step_number": 16,
+        "actions": [
+          "Start Pass 4. Find minimum in unsorted portion [25, 64].",
+          "Current minimum: 25 at index 3."
+        ],
+        "state": { 
+          "current_pass": 4,
+          "current_index": 3,
+          "min_index": 3,
+          "min_value": 25,
+          "swapped": false,
+          "array": [11, 12, 22, 25, 64],
+          "sorted_count": 3,
+          "comparing": [3]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 17,
+        "actions": [
+          "Compare 25 with 64. Since 25 < 64, minimum remains 25 at index 3.",
+          "Minimum unchanged: 25 at index 3."
+        ],
+        "state": { 
+          "current_pass": 4,
+          "current_index": 4,
+          "min_index": 3,
+          "min_value": 25,
+          "swapped": false,
+          "array": [11, 12, 22, 25, 64],
+          "sorted_count": 3,
+          "comparing": [3, 4]
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 18,
+        "actions": [
+          "Pass 4 complete. Minimum element 25 found at index 3.",
+          "No swap needed as element is already in correct position."
+        ],
+        "state": { 
+          "current_pass": 4,
+          "current_index": 4,
+          "min_index": 3,
+          "min_value": 25,
+          "swapped": false,
+          "array": [11, 12, 22, 25, 64],
+          "sorted_count": 4,
+          "comparing": [3, 3]
+        },
+        "next_suggestion": "complete"
+      },
+      {
+        "step_number": 19,
+        "actions": [
+          "Selection Sort complete! Array is now sorted: [11, 12, 22, 25, 64].",
+          "All elements are in ascending order."
+        ],
+        "state": { 
+          "current_pass": 4,
+          "current_index": 4,
+          "min_index": 4,
+          "min_value": 64,
+          "swapped": false,
+          "array": [11, 12, 22, 25, 64],
+          "sorted_count": 5,
+          "comparing": []
+        },
+        "next_suggestion": null
+      }
+    ]
+  }
+}

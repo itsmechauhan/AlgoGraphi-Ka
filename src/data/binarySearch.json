@@ -1,0 +1,67 @@
+{
+  "input": {
+    "array": [7, 10, 19, 24, 36, 42],
+    "target": 42
+  },
+  "meta": {
+    "algorithm": "Binary Search",
+    "steps": [
+      {
+        "step_number": 1,
+        "actions": [
+          "Initialize binary search with left = 0, right = 5.",
+          "Calculate middle = (0 + 5) / 2 = 2. Compare array[2] = 19 with target 42."
+        ],
+        "state": { 
+          "left": 0, 
+          "right": 5, 
+          "middle": 2, 
+          "found": false 
+        },
+        "next_suggestion": "right"
+      },
+      {
+        "step_number": 2,
+        "actions": [
+          "Since 19 < 42, target is in right half. Update left = 3.",
+          "Calculate middle = (3 + 5) / 2 = 4. Compare array[4] = 36 with target 42."
+        ],
+        "state": { 
+          "left": 3, 
+          "right": 5, 
+          "middle": 4, 
+          "found": false 
+        },
+        "next_suggestion": "right"
+      },
+      {
+        "step_number": 3,
+        "actions": [
+          "Since 36 < 42, target is in right half. Update left = 5.",
+          "Calculate middle = (5 + 5) / 2 = 5. Compare array[5] = 42 with target 42."
+        ],
+        "state": { 
+          "left": 5, 
+          "right": 5, 
+          "middle": 5, 
+          "found": false 
+        },
+        "next_suggestion": "found"
+      },
+      {
+        "step_number": 4,
+        "actions": [
+          "Found match! array[5] = 42 equals target 42.",
+          "Binary search complete. Target found at index 5."
+        ],
+        "state": { 
+          "left": 5, 
+          "right": 5, 
+          "middle": 5, 
+          "found": true 
+        },
+        "next_suggestion": null
+      }
+    ]
+  }
+}

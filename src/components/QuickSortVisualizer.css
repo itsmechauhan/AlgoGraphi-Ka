@@ -1,0 +1,624 @@
+:root {
+  --bg-color: #ffffff;
+  --text-color: #222;
+  --primary-color: #3498db;
+  --secondary-color: #f9f9f9;
+  --partition-color: #e8f4f8;
+  --pivot-color: #9b59b6;
+  --comparing-color: #e67e22;
+  --swapped-color: #e74c3c;
+  --sorted-color: #27ae60;
+  --stroke-color: #fff;
+  --ai-color: #e74c3c;
+  --comparing-stroke-color: #d35400;
+  --i-color: #3498db;
+  --j-color: #f39c12;
+}
+
+body.dark,
+.quick-sort-outer.dark {
+  --bg-color: #1e1e1e;
+  --text-color: #e0e0e0;
+  --primary-color: #9b59b6;
+  --secondary-color: #2c2c2c;
+  --partition-color: #2980b9;
+  --pivot-color: #9b59b6;
+  --comparing-color: #e67e22;
+  --swapped-color: #e74c3c;
+  --sorted-color: #27ae60;
+  --stroke-color: #444;
+  --ai-color: #e74c3c;
+  --comparing-stroke-color: #d35400;
+  --i-color: #3498db;
+  --j-color: #f39c12;
+}
+
+.quick-sort-outer {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  transition: background-color 0.5s, color 0.5s;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 20px;
+}
+
+/* Header with centered title and theme toggle */
+.quick-sort-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 2.2rem;
+  color: var(--primary-color);
+}
+
+.theme-toggle {
+  position: absolute;
+  right: 0;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background 0.3s, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.theme-toggle:hover {
+  transform: scale(1.05);
+  filter: brightness(0.95);
+}
+
+/* Layout panels */
+.quick-sort-and-controls {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.left-panel {
+  flex: 2;
+  min-width: 400px;
+}
+
+.right-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 300px;
+}
+
+.quick-sort-controls {
+  margin-bottom: 12px;
+}
+
+.quick-sort-controls button {
+  margin-right: 10px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.quick-sort-controls button:hover {
+  filter: brightness(0.9);
+}
+
+/* SVG Array Styling */
+svg {
+  border-radius: 10px;
+  background-color: var(--secondary-color);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.5s;
+}
+
+rect {
+  transition: fill 0.3s, stroke 0.3s, transform 0.3s;
+  transform-origin: center;
+}
+
+rect:hover {
+  stroke: var(--primary-color);
+  stroke-width: 4;
+  cursor: pointer;
+  filter: drop-shadow(0 0 4px var(--primary-color));
+}
+
+text {
+  font-size: 14px;
+  font-weight: bold;
+  pointer-events: none;
+}
+
+/* Array element animations */
+rect.entering {
+  animation: popIn 0.4s ease-out;
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Quick sort specific animations */
+rect.pivot-element {
+  animation: pivotPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pivotPulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+  }
+}
+
+rect.comparing {
+  animation: comparisonGlow 1s ease-in-out infinite;
+}
+
+@keyframes comparisonGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px var(--comparing-color));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px var(--comparing-color));
+  }
+}
+
+rect.partitioning {
+  animation: partitionGlow 2s ease-in-out infinite;
+}
+
+@keyframes partitionGlow {
+  0%, 100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.1);
+  }
+}
+
+/* Swap animation */
+rect.swapping {
+  animation: swapPulse 0.6s ease-in-out;
+}
+
+@keyframes swapPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+  }
+}
+
+/* Explanation Section */
+.explanation {
+  background-color: var(--secondary-color);
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  text-align: left;
+}
+
+.ai-suggestion {
+  color: var(--ai-color);
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.success-message {
+  color: var(--sorted-color);
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+/* Card and pseudocode */
+.card {
+  background-color: var(--secondary-color);
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+  margin-top: 0;
+  color: var(--primary-color);
+}
+
+.pseudocode-card pre {
+  font-size: 1rem;
+  line-height: 1.5;
+  font-family: 'Fira Code', monospace;
+  background: #2d2d2d;
+  color: #f8f8f2;
+  padding: 10px;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+/* Complexity chart styles */
+.complexity-card svg {
+  background-color: var(--secondary-color);
+  border-radius: 8px;
+  padding: 10px;
+  width: 100%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.complexity-card text {
+  font-size: 12px;
+}
+
+/* Bottom panel transcript */
+.bottom-panel {
+  margin-top: 30px;
+  padding: 10px 0;
+  text-align: left;
+}
+
+.bottom-panel h3 {
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+.bottom-panel ol {
+  padding-left: 20px;
+}
+
+.bottom-panel li {
+  margin-bottom: 6px;
+}
+
+/* State panel styling */
+.state-panel {
+  margin: 20px auto;
+  padding: 15px 20px;
+  max-width: 400px;
+  background-color: var(--secondary-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.state-panel h3 {
+  margin-bottom: 12px;
+  color: var(--primary-color);
+  font-size: 1.2rem;
+}
+
+.state-panel p {
+  margin: 6px 0;
+}
+
+.state-panel strong {
+  color: var(--primary-color);
+}
+
+/* Array visualization specific styles */
+.array-container-group {
+  transform-origin: center;
+}
+
+.array-bars rect {
+  transition: all 0.3s ease;
+}
+
+.value-labels text {
+  font-size: 14px;
+  font-weight: bold;
+  fill: var(--text-color);
+}
+
+.index-labels text {
+  font-size: 12px;
+  font-weight: bold;
+  fill: var(--text-color);
+}
+
+/* Quick sort specific indicators */
+.partition-indicator text {
+  font-size: 18px;
+  font-weight: bold;
+  fill: var(--primary-color);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.pivot-indicator text {
+  font-size: 14px;
+  font-weight: bold;
+  fill: var(--pivot-color);
+  animation: pivotIndicatorPulse 1.5s ease-in-out infinite;
+}
+
+.range-indicator text {
+  font-size: 14px;
+  font-weight: bold;
+  fill: var(--partition-color);
+}
+
+.comparison-arrow path {
+  stroke: var(--comparing-stroke-color);
+  stroke-width: 3;
+  fill: none;
+  animation: arrowPulse 1.5s ease-in-out infinite;
+}
+
+.swap-effect text {
+  font-size: 16px;
+  font-weight: bold;
+  fill: var(--swapped-color);
+  animation: swapBounce 1s ease-in-out;
+}
+
+.pivot-highlight text {
+  font-size: 12px;
+  font-weight: bold;
+  fill: var(--ai-color);
+  animation: pivotHighlight 1s ease-in-out infinite;
+}
+
+.i-pointer text {
+  font-size: 14px;
+  font-weight: bold;
+  fill: var(--i-color);
+  animation: pointerPulse 1s ease-in-out infinite;
+}
+
+.j-pointer text {
+  font-size: 14px;
+  font-weight: bold;
+  fill: var(--j-color);
+  animation: pointerPulse 1s ease-in-out infinite;
+}
+
+.partition-range-line line {
+  stroke: var(--partition-color);
+  stroke-width: 3;
+  stroke-dasharray: 5,5;
+  animation: dash 2s linear infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes pivotIndicatorPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes arrowPulse {
+  0%, 100% {
+    opacity: 0.8;
+    stroke-width: 3;
+  }
+  50% {
+    opacity: 1;
+    stroke-width: 4;
+  }
+}
+
+@keyframes swapBounce {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-10px) scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes pivotHighlight {
+  0%, 100% {
+    opacity: 0.8;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes pointerPulse {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 10;
+  }
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .quick-sort-and-controls {
+    flex-direction: column;
+  }
+
+  .theme-toggle {
+    position: static;
+    margin-top: 10px;
+  }
+
+  svg {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* Small card styling */
+.small-card {
+  background-color: var(--secondary-color);
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-top: 8px;
+  border-left: 4px solid var(--ai-color);
+}
+
+.success-message.small-card {
+  border-left-color: var(--sorted-color);
+}
+
+/* Quick sort specific color coding legend */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: var(--secondary-color);
+  border-radius: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  border: 1px solid var(--stroke-color);
+}
+
+.legend-color.partition {
+  background-color: var(--partition-color);
+}
+
+.legend-color.pivot {
+  background-color: var(--pivot-color);
+}
+
+.legend-color.comparing {
+  background-color: var(--comparing-color);
+}
+
+.legend-color.swapped {
+  background-color: var(--swapped-color);
+}
+
+.legend-color.sorted {
+  background-color: var(--sorted-color);
+}
+
+/* Enhanced partition visualization */
+.partition-animation {
+  animation: partitionMove 0.8s ease-in-out;
+}
+
+@keyframes partitionMove {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateY(-20px);
+  }
+  50% {
+    transform: translateX(100px) translateY(-20px);
+  }
+  75% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Pivot element special effects */
+.pivot-element {
+  position: relative;
+}
+
+.pivot-element::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border: 2px solid var(--pivot-color);
+  border-radius: 8px;
+  animation: pivotBorder 1s ease-in-out infinite;
+}
+
+@keyframes pivotBorder {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* Pointer movement animation */
+.pointer-move {
+  animation: pointerMove 0.5s ease-in-out;
+}
+
+@keyframes pointerMove {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

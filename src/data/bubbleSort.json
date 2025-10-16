@@ -1,0 +1,376 @@
+{
+  "input": {
+    "array": [64, 34, 25, 12, 22, 11, 90]
+  },
+  "meta": {
+    "algorithm": "Bubble Sort",
+    "steps": [
+      {
+        "step_number": 1,
+        "actions": [
+          "Start Bubble Sort. Compare elements 64 and 34.",
+          "Since 64 > 34, swap them. Array becomes [34, 64, 25, 12, 22, 11, 90]."
+        ],
+        "state": { 
+          "current_pass": 1,
+          "current_comparison": 0,
+          "swapped": true,
+          "array": [34, 64, 25, 12, 22, 11, 90],
+          "comparing": [0, 1],
+          "sorted_count": 0
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 2,
+        "actions": [
+          "Compare elements 64 and 25.",
+          "Since 64 > 25, swap them. Array becomes [34, 25, 64, 12, 22, 11, 90]."
+        ],
+        "state": { 
+          "current_pass": 1,
+          "current_comparison": 1,
+          "swapped": true,
+          "array": [34, 25, 64, 12, 22, 11, 90],
+          "comparing": [1, 2],
+          "sorted_count": 0
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 3,
+        "actions": [
+          "Compare elements 64 and 12.",
+          "Since 64 > 12, swap them. Array becomes [34, 25, 12, 64, 22, 11, 90]."
+        ],
+        "state": { 
+          "current_pass": 1,
+          "current_comparison": 2,
+          "swapped": true,
+          "array": [34, 25, 12, 64, 22, 11, 90],
+          "comparing": [2, 3],
+          "sorted_count": 0
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 4,
+        "actions": [
+          "Compare elements 64 and 22.",
+          "Since 64 > 22, swap them. Array becomes [34, 25, 12, 22, 64, 11, 90]."
+        ],
+        "state": { 
+          "current_pass": 1,
+          "current_comparison": 3,
+          "swapped": true,
+          "array": [34, 25, 12, 22, 64, 11, 90],
+          "comparing": [3, 4],
+          "sorted_count": 0
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 5,
+        "actions": [
+          "Compare elements 64 and 11.",
+          "Since 64 > 11, swap them. Array becomes [34, 25, 12, 22, 11, 64, 90]."
+        ],
+        "state": { 
+          "current_pass": 1,
+          "current_comparison": 4,
+          "swapped": true,
+          "array": [34, 25, 12, 22, 11, 64, 90],
+          "comparing": [4, 5],
+          "sorted_count": 0
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 6,
+        "actions": [
+          "Compare elements 64 and 90.",
+          "Since 64 < 90, no swap needed. Array remains [34, 25, 12, 22, 11, 64, 90]."
+        ],
+        "state": { 
+          "current_pass": 1,
+          "current_comparison": 5,
+          "swapped": false,
+          "array": [34, 25, 12, 22, 11, 64, 90],
+          "comparing": [5, 6],
+          "sorted_count": 1
+        },
+        "next_suggestion": "pass_complete"
+      },
+      {
+        "step_number": 7,
+        "actions": [
+          "Pass 1 complete. Largest element 90 is in correct position.",
+          "Start Pass 2. Compare elements 34 and 25."
+        ],
+        "state": { 
+          "current_pass": 2,
+          "current_comparison": 0,
+          "swapped": true,
+          "array": [25, 34, 12, 22, 11, 64, 90],
+          "comparing": [0, 1],
+          "sorted_count": 1
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 8,
+        "actions": [
+          "Compare elements 34 and 12.",
+          "Since 34 > 12, swap them. Array becomes [25, 12, 34, 22, 11, 64, 90]."
+        ],
+        "state": { 
+          "current_pass": 2,
+          "current_comparison": 1,
+          "swapped": true,
+          "array": [25, 12, 34, 22, 11, 64, 90],
+          "comparing": [1, 2],
+          "sorted_count": 1
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 9,
+        "actions": [
+          "Compare elements 34 and 22.",
+          "Since 34 > 22, swap them. Array becomes [25, 12, 22, 34, 11, 64, 90]."
+        ],
+        "state": { 
+          "current_pass": 2,
+          "current_comparison": 2,
+          "swapped": true,
+          "array": [25, 12, 22, 34, 11, 64, 90],
+          "comparing": [2, 3],
+          "sorted_count": 1
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 10,
+        "actions": [
+          "Compare elements 34 and 11.",
+          "Since 34 > 11, swap them. Array becomes [25, 12, 22, 11, 34, 64, 90]."
+        ],
+        "state": { 
+          "current_pass": 2,
+          "current_comparison": 3,
+          "swapped": true,
+          "array": [25, 12, 22, 11, 34, 64, 90],
+          "comparing": [3, 4],
+          "sorted_count": 1
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 11,
+        "actions": [
+          "Compare elements 34 and 64.",
+          "Since 34 < 64, no swap needed. Array remains [25, 12, 22, 11, 34, 64, 90]."
+        ],
+        "state": { 
+          "current_pass": 2,
+          "current_comparison": 4,
+          "swapped": false,
+          "array": [25, 12, 22, 11, 34, 64, 90],
+          "comparing": [4, 5],
+          "sorted_count": 2
+        },
+        "next_suggestion": "pass_complete"
+      },
+      {
+        "step_number": 12,
+        "actions": [
+          "Pass 2 complete. Second largest element 64 is in correct position.",
+          "Start Pass 3. Compare elements 25 and 12."
+        ],
+        "state": { 
+          "current_pass": 3,
+          "current_comparison": 0,
+          "swapped": true,
+          "array": [12, 25, 22, 11, 34, 64, 90],
+          "comparing": [0, 1],
+          "sorted_count": 2
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 13,
+        "actions": [
+          "Compare elements 25 and 22.",
+          "Since 25 > 22, swap them. Array becomes [12, 22, 25, 11, 34, 64, 90]."
+        ],
+        "state": { 
+          "current_pass": 3,
+          "current_comparison": 1,
+          "swapped": true,
+          "array": [12, 22, 25, 11, 34, 64, 90],
+          "comparing": [1, 2],
+          "sorted_count": 2
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 14,
+        "actions": [
+          "Compare elements 25 and 11.",
+          "Since 25 > 11, swap them. Array becomes [12, 22, 11, 25, 34, 64, 90]."
+        ],
+        "state": { 
+          "current_pass": 3,
+          "current_comparison": 2,
+          "swapped": true,
+          "array": [12, 22, 11, 25, 34, 64, 90],
+          "comparing": [2, 3],
+          "sorted_count": 2
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 15,
+        "actions": [
+          "Compare elements 25 and 34.",
+          "Since 25 < 34, no swap needed. Array remains [12, 22, 11, 25, 34, 64, 90]."
+        ],
+        "state": { 
+          "current_pass": 3,
+          "current_comparison": 3,
+          "swapped": false,
+          "array": [12, 22, 11, 25, 34, 64, 90],
+          "comparing": [3, 4],
+          "sorted_count": 3
+        },
+        "next_suggestion": "pass_complete"
+      },
+      {
+        "step_number": 16,
+        "actions": [
+          "Pass 3 complete. Third largest element 34 is in correct position.",
+          "Start Pass 4. Compare elements 12 and 22."
+        ],
+        "state": { 
+          "current_pass": 4,
+          "current_comparison": 0,
+          "swapped": false,
+          "array": [12, 22, 11, 25, 34, 64, 90],
+          "comparing": [0, 1],
+          "sorted_count": 3
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 17,
+        "actions": [
+          "Compare elements 22 and 11.",
+          "Since 22 > 11, swap them. Array becomes [12, 11, 22, 25, 34, 64, 90]."
+        ],
+        "state": { 
+          "current_pass": 4,
+          "current_comparison": 1,
+          "swapped": true,
+          "array": [12, 11, 22, 25, 34, 64, 90],
+          "comparing": [1, 2],
+          "sorted_count": 3
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 18,
+        "actions": [
+          "Compare elements 22 and 25.",
+          "Since 22 < 25, no swap needed. Array remains [12, 11, 22, 25, 34, 64, 90]."
+        ],
+        "state": { 
+          "current_pass": 4,
+          "current_comparison": 2,
+          "swapped": false,
+          "array": [12, 11, 22, 25, 34, 64, 90],
+          "comparing": [2, 3],
+          "sorted_count": 4
+        },
+        "next_suggestion": "pass_complete"
+      },
+      {
+        "step_number": 19,
+        "actions": [
+          "Pass 4 complete. Fourth largest element 25 is in correct position.",
+          "Start Pass 5. Compare elements 12 and 11."
+        ],
+        "state": { 
+          "current_pass": 5,
+          "current_comparison": 0,
+          "swapped": true,
+          "array": [11, 12, 22, 25, 34, 64, 90],
+          "comparing": [0, 1],
+          "sorted_count": 4
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 20,
+        "actions": [
+          "Compare elements 12 and 22.",
+          "Since 12 < 22, no swap needed. Array remains [11, 12, 22, 25, 34, 64, 90]."
+        ],
+        "state": { 
+          "current_pass": 5,
+          "current_comparison": 1,
+          "swapped": false,
+          "array": [11, 12, 22, 25, 34, 64, 90],
+          "sorted_count": 5
+        },
+        "next_suggestion": "pass_complete"
+      },
+      {
+        "step_number": 21,
+        "actions": [
+          "Pass 5 complete. Fifth largest element 22 is in correct position.",
+          "Start Pass 6. Compare elements 11 and 12."
+        ],
+        "state": { 
+          "current_pass": 6,
+          "current_comparison": 0,
+          "swapped": false,
+          "array": [11, 12, 22, 25, 34, 64, 90],
+          "comparing": [0, 1],
+          "sorted_count": 5
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 22,
+        "actions": [
+          "Compare elements 11 and 12.",
+          "Since 11 < 12, no swap needed. Array remains [11, 12, 22, 25, 34, 64, 90]."
+        ],
+        "state": { 
+          "current_pass": 6,
+          "current_comparison": 1,
+          "swapped": false,
+          "array": [11, 12, 22, 25, 34, 64, 90],
+          "sorted_count": 6
+        },
+        "next_suggestion": "complete"
+      },
+      {
+        "step_number": 23,
+        "actions": [
+          "Bubble Sort complete! Array is now sorted: [11, 12, 22, 25, 34, 64, 90].",
+          "All elements are in ascending order."
+        ],
+        "state": { 
+          "current_pass": 6,
+          "current_comparison": 1,
+          "swapped": false,
+          "array": [11, 12, 22, 25, 34, 64, 90],
+          "comparing": [],
+          "sorted_count": 7
+        },
+        "next_suggestion": null
+      }
+    ]
+  }
+}

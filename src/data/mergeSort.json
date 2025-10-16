@@ -1,0 +1,362 @@
+{
+  "input": {
+    "array": [64, 25, 12, 22, 11]
+  },
+  "meta": {
+    "algorithm": "Merge Sort",
+    "steps": [
+      {
+        "step_number": 1,
+        "actions": [
+          "Start Merge Sort. Divide array [64, 25, 12, 22, 11] into two halves.",
+          "Left half: [64, 25], Right half: [12, 22, 11]."
+        ],
+        "state": { 
+          "current_level": 1,
+          "left_array": [64, 25],
+          "right_array": [12, 22, 11],
+          "merged_array": [],
+          "left_index": 0,
+          "right_index": 0,
+          "merge_index": 0,
+          "comparing": [],
+          "merging": false,
+          "array": [64, 25, 12, 22, 11],
+          "temp_array": [],
+          "current_merge": "divide"
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 2,
+        "actions": [
+          "Recursively sort left half [64, 25]. Divide into [64] and [25].",
+          "Both single elements are already sorted."
+        ],
+        "state": { 
+          "current_level": 2,
+          "left_array": [64],
+          "right_array": [25],
+          "merged_array": [],
+          "left_index": 0,
+          "right_index": 0,
+          "merge_index": 0,
+          "comparing": [],
+          "merging": false,
+          "array": [64, 25, 12, 22, 11],
+          "temp_array": [],
+          "current_merge": "divide"
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 3,
+        "actions": [
+          "Merge [64] and [25]. Compare 64 and 25.",
+          "Since 25 < 64, add 25 to merged array. Merged: [25]."
+        ],
+        "state": { 
+          "current_level": 2,
+          "left_array": [64],
+          "right_array": [25],
+          "merged_array": [25],
+          "left_index": 0,
+          "right_index": 1,
+          "merge_index": 1,
+          "comparing": [64, 25],
+          "merging": true,
+          "array": [64, 25, 12, 22, 11],
+          "temp_array": [25],
+          "current_merge": "merge"
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 4,
+        "actions": [
+          "Add remaining element 64 to merged array.",
+          "Left half sorted: [25, 64]."
+        ],
+        "state": { 
+          "current_level": 2,
+          "left_array": [64],
+          "right_array": [25],
+          "merged_array": [25, 64],
+          "left_index": 1,
+          "right_index": 1,
+          "merge_index": 2,
+          "comparing": [],
+          "merging": false,
+          "array": [64, 25, 12, 22, 11],
+          "temp_array": [25, 64],
+          "current_merge": "complete"
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 5,
+        "actions": [
+          "Recursively sort right half [12, 22, 11]. Divide into [12] and [22, 11].",
+          "Single element [12] is already sorted."
+        ],
+        "state": { 
+          "current_level": 2,
+          "left_array": [12],
+          "right_array": [22, 11],
+          "merged_array": [],
+          "left_index": 0,
+          "right_index": 0,
+          "merge_index": 0,
+          "comparing": [],
+          "merging": false,
+          "array": [64, 25, 12, 22, 11],
+          "temp_array": [25, 64],
+          "current_merge": "divide"
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 6,
+        "actions": [
+          "Recursively sort [22, 11]. Divide into [22] and [11].",
+          "Both single elements are already sorted."
+        ],
+        "state": { 
+          "current_level": 3,
+          "left_array": [22],
+          "right_array": [11],
+          "merged_array": [],
+          "left_index": 0,
+          "right_index": 0,
+          "merge_index": 0,
+          "comparing": [],
+          "merging": false,
+          "array": [64, 25, 12, 22, 11],
+          "temp_array": [25, 64],
+          "current_merge": "divide"
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 7,
+        "actions": [
+          "Merge [22] and [11]. Compare 22 and 11.",
+          "Since 11 < 22, add 11 to merged array. Merged: [11]."
+        ],
+        "state": { 
+          "current_level": 3,
+          "left_array": [22],
+          "right_array": [11],
+          "merged_array": [11],
+          "left_index": 0,
+          "right_index": 1,
+          "merge_index": 1,
+          "comparing": [22, 11],
+          "merging": true,
+          "array": [64, 25, 12, 22, 11],
+          "temp_array": [25, 64],
+          "current_merge": "merge"
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 8,
+        "actions": [
+          "Add remaining element 22 to merged array.",
+          "Subarray sorted: [11, 22]."
+        ],
+        "state": { 
+          "current_level": 3,
+          "left_array": [22],
+          "right_array": [11],
+          "merged_array": [11, 22],
+          "left_index": 1,
+          "right_index": 1,
+          "merge_index": 2,
+          "comparing": [],
+          "merging": false,
+          "array": [64, 25, 12, 22, 11],
+          "temp_array": [25, 64],
+          "current_merge": "complete"
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 9,
+        "actions": [
+          "Merge [12] and [11, 22]. Compare 12 and 11.",
+          "Since 11 < 12, add 11 to merged array. Merged: [11]."
+        ],
+        "state": { 
+          "current_level": 2,
+          "left_array": [12],
+          "right_array": [11, 22],
+          "merged_array": [11],
+          "left_index": 0,
+          "right_index": 1,
+          "merge_index": 1,
+          "comparing": [12, 11],
+          "merging": true,
+          "array": [64, 25, 12, 22, 11],
+          "temp_array": [25, 64],
+          "current_merge": "merge"
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 10,
+        "actions": [
+          "Compare 12 and 22. Since 12 < 22, add 12 to merged array.",
+          "Merged: [11, 12]."
+        ],
+        "state": { 
+          "current_level": 2,
+          "left_array": [12],
+          "right_array": [11, 22],
+          "merged_array": [11, 12],
+          "left_index": 1,
+          "right_index": 1,
+          "merge_index": 2,
+          "comparing": [12, 22],
+          "merging": true,
+          "array": [64, 25, 12, 22, 11],
+          "temp_array": [25, 64],
+          "current_merge": "merge"
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 11,
+        "actions": [
+          "Add remaining element 22 to merged array.",
+          "Right half sorted: [11, 12, 22]."
+        ],
+        "state": { 
+          "current_level": 2,
+          "left_array": [12],
+          "right_array": [11, 22],
+          "merged_array": [11, 12, 22],
+          "left_index": 1,
+          "right_index": 2,
+          "merge_index": 3,
+          "comparing": [],
+          "merging": false,
+          "array": [64, 25, 12, 22, 11],
+          "temp_array": [25, 64],
+          "current_merge": "complete"
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 12,
+        "actions": [
+          "Merge sorted halves [25, 64] and [11, 12, 22].",
+          "Compare 25 and 11. Since 11 < 25, add 11 to merged array."
+        ],
+        "state": { 
+          "current_level": 1,
+          "left_array": [25, 64],
+          "right_array": [11, 12, 22],
+          "merged_array": [11],
+          "left_index": 0,
+          "right_index": 1,
+          "merge_index": 1,
+          "comparing": [25, 11],
+          "merging": true,
+          "array": [64, 25, 12, 22, 11],
+          "temp_array": [11],
+          "current_merge": "merge"
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 13,
+        "actions": [
+          "Compare 25 and 12. Since 12 < 25, add 12 to merged array.",
+          "Merged: [11, 12]."
+        ],
+        "state": { 
+          "current_level": 1,
+          "left_array": [25, 64],
+          "right_array": [11, 12, 22],
+          "merged_array": [11, 12],
+          "left_index": 0,
+          "right_index": 2,
+          "merge_index": 2,
+          "comparing": [25, 12],
+          "merging": true,
+          "array": [64, 25, 12, 22, 11],
+          "temp_array": [11, 12],
+          "current_merge": "merge"
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 14,
+        "actions": [
+          "Compare 25 and 22. Since 22 < 25, add 22 to merged array.",
+          "Merged: [11, 12, 22]."
+        ],
+        "state": { 
+          "current_level": 1,
+          "left_array": [25, 64],
+          "right_array": [11, 12, 22],
+          "merged_array": [11, 12, 22],
+          "left_index": 0,
+          "right_index": 3,
+          "merge_index": 3,
+          "comparing": [25, 22],
+          "merging": true,
+          "array": [64, 25, 12, 22, 11],
+          "temp_array": [11, 12, 22],
+          "current_merge": "merge"
+        },
+        "next_suggestion": "continue"
+      },
+      {
+        "step_number": 15,
+        "actions": [
+          "Add remaining elements 25 and 64 to merged array.",
+          "Final sorted array: [11, 12, 22, 25, 64]."
+        ],
+        "state": { 
+          "current_level": 1,
+          "left_array": [25, 64],
+          "right_array": [11, 12, 22],
+          "merged_array": [11, 12, 22, 25, 64],
+          "left_index": 2,
+          "right_index": 3,
+          "merge_index": 5,
+          "comparing": [],
+          "merging": false,
+          "array": [11, 12, 22, 25, 64],
+          "temp_array": [11, 12, 22, 25, 64],
+          "current_merge": "complete"
+        },
+        "next_suggestion": "complete"
+      },
+      {
+        "step_number": 16,
+        "actions": [
+          "Merge Sort complete! Array is now sorted: [11, 12, 22, 25, 64].",
+          "All elements are in ascending order."
+        ],
+        "state": { 
+          "current_level": 1,
+          "left_array": [25, 64],
+          "right_array": [11, 12, 22],
+          "merged_array": [11, 12, 22, 25, 64],
+          "left_index": 2,
+          "right_index": 3,
+          "merge_index": 5,
+          "comparing": [],
+          "merging": false,
+          "array": [11, 12, 22, 25, 64],
+          "temp_array": [11, 12, 22, 25, 64],
+          "current_merge": "complete"
+        },
+        "next_suggestion": null
+      }
+    ]
+  }
+}
