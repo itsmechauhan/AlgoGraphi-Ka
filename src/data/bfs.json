@@ -1,0 +1,87 @@
+{
+  "input": {
+    "nodes": ["A", "B", "C", "D", "E"],
+    "edges": [["A", "B"], ["A", "C"], ["B", "D"], ["C", "D"], ["D", "E"]],
+    "start_node": "A"
+  },
+  "meta": {
+    "algorithm": "BFS",
+    "steps": [
+      {
+        "step_number": 1,
+        "actions": [
+          "Step 1: We start the BFS from node A. Right now, the queue only has A in it.",
+          "We visit A and look at its neighbors — B and C. Both are unvisited, so we add them to the queue. The queue now contains B and C."
+        ],
+        "state": {
+          "queue": ["B", "C"],
+          "visited": ["A"],
+          "predecessor": { "A": null },
+          "level": { "A": 0, "B": 1, "C": 1 },
+          "order": ["A"]
+        },
+        "next_suggestion": "B"
+      },
+      {
+        "step_number": 2,
+        "actions": [
+          "Step 2: The next node in the queue is B, so we visit B.",
+          "B has a neighbor D, which hasn’t been visited yet. We add D to the queue. The queue now has C and D."
+        ],
+        "state": {
+          "queue": ["C", "D"],
+          "visited": ["A", "B"],
+          "predecessor": { "A": null, "B": "A", "C": "A", "D": "B" },
+          "level": { "A": 0, "B": 1, "C": 1, "D": 2 },
+          "order": ["A", "B"]
+        },
+        "next_suggestion": "C"
+      },
+      {
+        "step_number": 3,
+        "actions": [
+          "Step 3: Now we visit node C, which is next in the queue.",
+          "C’s neighbor D is already in the queue, so we skip it. The queue now has only D left."
+        ],
+        "state": {
+          "queue": ["D"],
+          "visited": ["A", "B", "C"],
+          "predecessor": { "A": null, "B": "A", "C": "A", "D": "B" },
+          "level": { "A": 0, "B": 1, "C": 1, "D": 2 },
+          "order": ["A", "B", "C"]
+        },
+        "next_suggestion": "D"
+      },
+      {
+        "step_number": 4,
+        "actions": [
+          "Step 4: The next node to visit is D.",
+          "D has a neighbor E that hasn’t been visited yet, so we add E to the queue. The queue now has E."
+        ],
+        "state": {
+          "queue": ["E"],
+          "visited": ["A", "B", "C", "D"],
+          "predecessor": { "A": null, "B": "A", "C": "A", "D": "B", "E": "D" },
+          "level": { "A": 0, "B": 1, "C": 1, "D": 2, "E": 3 },
+          "order": ["A", "B", "C", "D"]
+        },
+        "next_suggestion": "E"
+      },
+      {
+        "step_number": 5,
+        "actions": [
+          "Step 5: Finally, we visit node E.",
+          "E has no new neighbors to explore. The queue becomes empty, and our BFS traversal is now complete."
+        ],
+        "state": {
+          "queue": [],
+          "visited": ["A", "B", "C", "D", "E"],
+          "predecessor": { "A": null, "B": "A", "C": "A", "D": "B", "E": "D" },
+          "level": { "A": 0, "B": 1, "C": 1, "D": 2, "E": 3 },
+          "order": ["A", "B", "C", "D", "E"]
+        },
+        "next_suggestion": null
+      }
+    ]
+  }
+}

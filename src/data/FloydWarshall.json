@@ -1,0 +1,88 @@
+{
+  "meta": {
+    "algorithm": "Floyd–Warshall",
+    "description": "The Floyd–Warshall algorithm finds the shortest paths between all pairs of vertices in a weighted graph.",
+    "total_steps": 4
+  },
+  "input": {
+    "nodes": ["A", "B", "C", "D"],
+    "matrix": [
+      [0, 3, 999999, 7],
+      [8, 0, 2, 999999],
+      [5, 999999, 0, 1],
+      [2, 999999, 999999, 0]
+    ]
+  },
+  "steps": [
+    {
+      "step_number": 1,
+      "k": "A",
+      "actions": [
+        "Start with node A as the intermediate vertex.",
+        "Compare all pairs (i, j) to check if path i → A → j is shorter than direct i → j.",
+        "Updated B → D via A (since B → A → D = 15 < ∞).",
+        "Updated C → B via A (since C → A → B = 8 < ∞)."
+      ],
+      "updates": [
+        { "from": "B", "to": "D", "old": 999999, "new": 15 },
+        { "from": "C", "to": "B", "old": 999999, "new": 8 }
+      ],
+      "state": {
+        "highlight_cells": [["B", "D"], ["C", "B"]]
+      },
+      "next_suggestion": "Next, use node B as the intermediate vertex."
+    },
+    {
+      "step_number": 2,
+      "k": "B",
+      "actions": [
+        "Now consider node B as the intermediate vertex.",
+        "Check if paths i → B → j yield shorter distances.",
+        "Updated A → C via B (A → B → C = 5 < ∞).",
+        "Updated D → C via B (D → B → C = 12 < ∞)."
+      ],
+      "updates": [
+        { "from": "A", "to": "C", "old": 999999, "new": 5 },
+        { "from": "D", "to": "C", "old": 999999, "new": 12 }
+      ],
+      "state": {
+        "highlight_cells": [["A", "C"], ["D", "C"]]
+      },
+      "next_suggestion": "Next, use node C as the intermediate vertex."
+    },
+    {
+      "step_number": 3,
+      "k": "C",
+      "actions": [
+        "Now consider node C as the intermediate vertex.",
+        "Update paths that can be improved using C as a midpoint.",
+        "Updated A → D via C (A → C → D = 6 < 7).",
+        "Updated B → D via C (B → C → D = 3 < 15)."
+      ],
+      "updates": [
+        { "from": "A", "to": "D", "old": 7, "new": 6 },
+        { "from": "B", "to": "D", "old": 15, "new": 3 }
+      ],
+      "state": {
+        "highlight_cells": [["A", "D"], ["B", "D"]]
+      },
+      "next_suggestion": "Next, use node D as the intermediate vertex."
+    },
+    {
+      "step_number": 4,
+      "k": "D",
+      "actions": [
+        "Finally, consider node D as the intermediate vertex.",
+        "Check if any distances can be reduced via D as an intermediate node.",
+        "Updated C → A via D (C → D → A = 3 < 5)."
+      ],
+      "updates": [
+        { "from": "C", "to": "A", "old": 5, "new": 3 }
+      ],
+      "state": {
+        "highlight_cells": [["C", "A"]]
+      },
+      "next_suggestion": "All intermediate nodes processed — shortest paths finalized."
+    }
+  ]
+}

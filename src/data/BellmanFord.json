@@ -1,0 +1,101 @@
+{
+  "input": {
+    "nodes": ["A", "B", "C", "D", "E"],
+    "edges": [
+      ["A", "B", 6],
+      ["A", "C", 7],
+      ["B", "C", 8],
+      ["B", "D", 5],
+      ["B", "E", -4],
+      ["C", "D", -3],
+      ["C", "E", 9],
+      ["D", "B", -2],
+      ["E", "D", 7]
+    ],
+    "start_node": "A"
+  },
+  "meta": {
+    "algorithm": "Bellman-Ford",
+    "steps": [
+      {
+        "step_number": 1,
+        "actions": [
+          "Step 1: Initialize distances from A to all nodes. Distance to A is 0, all others are 999999.",
+          "Set predecessor of all nodes to null."
+        ],
+        "state": {
+          "distances": { "A": 0, "B": 999999, "C": 999999, "D": 999999, "E": 999999 },
+          "predecessor": { "A": null, "B": null, "C": null, "D": null, "E": null },
+          "relaxed_edge": null
+        },
+        "next_suggestion": "Relax all edges"
+      },
+      {
+        "step_number": 2,
+        "actions": [
+          "Relax edge A → B (weight 6): update distance B = 0 + 6 = 6, predecessor B = A",
+          "Relax edge A → C (weight 7): update distance C = 0 + 7 = 7, predecessor C = A"
+        ],
+        "state": {
+          "distances": { "A": 0, "B": 6, "C": 7, "D": 999999, "E": 999999 },
+          "predecessor": { "A": null, "B": "A", "C": "A", "D": null, "E": null },
+          "relaxed_edge": ["A", "B"]
+        },
+        "next_suggestion": "Relax B edges"
+      },
+      {
+        "step_number": 3,
+        "actions": [
+          "Relax edge B → C (weight 8): new distance 6 + 8 = 14, current distance 7 → no update",
+          "Relax edge B → D (weight 5): update distance D = 6 + 5 = 11, predecessor D = B",
+          "Relax edge B → E (weight -4): update distance E = 6 - 4 = 2, predecessor E = B"
+        ],
+        "state": {
+          "distances": { "A": 0, "B": 6, "C": 7, "D": 11, "E": 2 },
+          "predecessor": { "A": null, "B": "A", "C": "A", "D": "B", "E": "B" },
+          "relaxed_edge": ["B", "D"]
+        },
+        "next_suggestion": "Relax C edges"
+      },
+      {
+        "step_number": 4,
+        "actions": [
+          "Relax edge C → D (weight -3): new distance 7 - 3 = 4 < 11 → update D = 4, predecessor D = C",
+          "Relax edge C → E (weight 9): new distance 7 + 9 = 16 > 2 → no update"
+        ],
+        "state": {
+          "distances": { "A": 0, "B": 6, "C": 7, "D": 4, "E": 2 },
+          "predecessor": { "A": null, "B": "A", "C": "A", "D": "C", "E": "B" },
+          "relaxed_edge": ["C", "D"]
+        },
+        "next_suggestion": "Relax D edges"
+      },
+      {
+        "step_number": 5,
+        "actions": [
+          "Relax edge D → B (weight -2): new distance 4 - 2 = 2 < 6 → update B = 2, predecessor B = D",
+          "Other D edges do not improve distances"
+        ],
+        "state": {
+          "distances": { "A": 0, "B": 2, "C": 7, "D": 4, "E": 2 },
+          "predecessor": { "A": null, "B": "D", "C": "A", "D": "C", "E": "B" },
+          "relaxed_edge": ["D", "B"]
+        },
+        "next_suggestion": "Relax E edges"
+      },
+      {
+        "step_number": 6,
+        "actions": [
+          "Relax edge E → D (weight 7): new distance 2 + 7 = 9 > 4 → no update",
+          "All edges relaxed, distances stabilized. Bellman-Ford complete."
+        ],
+        "state": {
+          "distances": { "A": 0, "B": 2, "C": 7, "D": 4, "E": 2 },
+          "predecessor": { "A": null, "B": "D", "C": "A", "D": "C", "E": "B" },
+          "relaxed_edge": ["E", "D"]
+        },
+        "next_suggestion": null
+      }
+    ]
+  }
+}

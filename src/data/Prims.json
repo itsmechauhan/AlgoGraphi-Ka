@@ -1,0 +1,85 @@
+{
+  "input": {
+    "nodes": ["A", "B", "C", "D", "E"],
+    "edges": [
+      ["A", "B", 2],
+      ["A", "C", 3],
+      ["B", "C", 1],
+      ["B", "D", 4],
+      ["C", "D", 5],
+      ["C", "E", 6],
+      ["D", "E", 7]
+    ],
+    "start_node": "A"
+  },
+  "meta": {
+    "algorithm": "Prims",
+    "steps": [
+      {
+        "step_number": 1,
+        "actions": [
+          "Step 1: Start Prim's algorithm from node A. MST initially contains only A.",
+          "We look at edges from A: A-B (2) and A-C (3). The smallest edge is A-B (2), so we add B to MST."
+        ],
+        "state": {
+          "mst_nodes": ["A", "B"],
+          "mst_edges": [["A", "B"]],
+          "candidate_edges": [["A", "C", 3], ["B", "C", 1], ["B", "D", 4]]
+        },
+        "next_suggestion": "B"
+      },
+      {
+        "step_number": 2,
+        "actions": [
+          "Step 2: Current MST nodes are A, B. Look at all edges from MST to non-MST nodes.",
+          "Candidate edges: A-C (3), B-C (1), B-D (4). Minimum weight is B-C (1). Add C to MST."
+        ],
+        "state": {
+          "mst_nodes": ["A", "B", "C"],
+          "mst_edges": [["A", "B"], ["B", "C"]],
+          "candidate_edges": [["A", "C", 3], ["B", "D", 4], ["C", "D", 5], ["C", "E", 6]]
+        },
+        "next_suggestion": "C"
+      },
+      {
+        "step_number": 3,
+        "actions": [
+          "Step 3: MST nodes: A, B, C. Candidate edges to non-MST nodes: A-C (3), B-D (4), C-D (5), C-E (6).",
+          "Minimum weight is A-C (3) or B-D (4)? Actually B-D (4) is next smallest connecting MST to non-MST. Add D to MST."
+        ],
+        "state": {
+          "mst_nodes": ["A", "B", "C", "D"],
+          "mst_edges": [["A", "B"], ["B", "C"], ["B", "D"]],
+          "candidate_edges": [["C", "D", 5], ["C", "E", 6], ["D", "E", 7]]
+        },
+        "next_suggestion": "D"
+      },
+      {
+        "step_number": 4,
+        "actions": [
+          "Step 4: MST nodes: A, B, C, D. Candidate edges: C-E (6), D-E (7).",
+          "Minimum weight is C-E (6). Add E to MST. All nodes are now in MST."
+        ],
+        "state": {
+          "mst_nodes": ["A", "B", "C", "D", "E"],
+          "mst_edges": [["A", "B"], ["B", "C"], ["B", "D"], ["C", "E"]],
+          "candidate_edges": []
+        },
+        "next_suggestion": "E"
+      },
+      {
+        "step_number": 5,
+        "actions": [
+          "Step 5: All nodes included in MST. Prim's algorithm complete.",
+          "The final MST edges are: A-B, B-C, B-D, C-E."
+        ],
+        "state": {
+          "mst_nodes": ["A", "B", "C", "D", "E"],
+          "mst_edges": [["A", "B"], ["B", "C"], ["B", "D"], ["C", "E"]],
+          "candidate_edges": []
+        },
+        "next_suggestion": null
+      }
+    ]
+  }
+}

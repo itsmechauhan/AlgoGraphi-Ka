@@ -1,0 +1,37 @@
+:root{ --bg:#fafafa; --card:#f3f3f3; --accent:#1976d2 }
+body{ font-family: Inter, Roboto, Arial, sans-serif; background:var(--bg); margin:0; color:#111 }
+.app-root{ padding:12px }
+.topbar{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px }
+.topbar h1{ margin:0; font-size:20px }
+.controls button{ margin-right:8px }
+.switch{ display:inline-flex; align-items:center; gap:6px; margin-left:8px }
+
+.visualizer-root{ border:1px solid #ddd; border-radius:6px; padding:12px; background:white }
+.grid{ display:grid; grid-template-columns: 1fr 320px; grid-template-rows: 440px 1fr; gap:12px }
+.graph-panel{ grid-column:1; grid-row:1; background: #fff; border:1px solid #eee; display:flex; flex-direction:column; align-items:flex-start; position:relative }
+.pseudo-panel{ grid-column:2; grid-row:1; padding:12px; background:var(--card); border-radius:6px }
+.transcript-panel{ grid-column:1; grid-row:2; padding:12px; background:var(--card); border-radius:6px }
+.complexity-panel{ grid-column:2; grid-row:2; padding:12px; background:var(--card); border-radius:6px }
+
+.pseudocode{ background:#fff; padding:8px; border-radius:6px; overflow:auto }
+.queue-box{ position:absolute; left:12px; bottom:12px; background:rgba(255,255,255,0.9); padding:8px; border-radius:6px; box-shadow:0 1px 3px rgba(0,0,0,0.08) }
+
+.suggestion{ margin-top:12px; padding:8px; background:#fff; border-radius:6px; border:1px dashed #ccc }
+.suggestion-badge{ font-size:12px; font-weight:700 }
+.suggestion-node{ font-size:22px; margin-top:6px }
+.suggestion-confidence{ font-size:12px; color:#666 }
+
+.actions{ display:flex; flex-direction:column; gap:6px }
+.action{ padding:8px; background:#fff; border-radius:6px }
+.action.primary{ border-left:4px solid var(--accent) }
+
+.bar-row{ display:flex; align-items:center; gap:8px; margin-top:6px }
+.bar{ background:#fff; padding:6px; border-radius:6px; border:1px solid #000 }
+
+.foot{ margin-top:8px; text-align:center; color:#666 }
+
+/* responsive */
+@media(max-width:900px){
+  .grid{ grid-template-columns: 1fr; grid-template-rows: auto }
+  .pseudo-panel{ order:3 }
+}

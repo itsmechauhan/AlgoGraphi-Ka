@@ -1,0 +1,82 @@
+{
+  "input": {
+    "nodes": ["A", "B", "C", "D", "E"],
+    "edges": [["A", "B"], ["A", "C"], ["B", "D"], ["C", "D"], ["D", "E"]],
+    "start_node": "A"
+  },
+  "meta": {
+    "algorithm": "DFS",
+    "steps": [
+      {
+        "step_number": 1,
+        "actions": [
+          "Step 1: We start DFS from node A. The stack initially contains A.",
+          "We visit A and look at its neighbors — B and C. We'll push them onto the stack (C first, then B for correct DFS order). The stack now has B on top."
+        ],
+        "state": {
+          "stack": ["B", "C"],
+          "visited": ["A"],
+          "predecessor": { "A": null },
+          "order": ["A"]
+        },
+        "next_suggestion": "B"
+      },
+      {
+        "step_number": 2,
+        "actions": [
+          "Step 2: Pop B from the stack and visit it.",
+          "B has a neighbor D. Since D is unvisited, we push it onto the stack. The stack now contains D and C."
+        ],
+        "state": {
+          "stack": ["D", "C"],
+          "visited": ["A", "B"],
+          "predecessor": { "A": null, "B": "A", "C": "A", "D": "B" },
+          "order": ["A", "B"]
+        },
+        "next_suggestion": "D"
+      },
+      {
+        "step_number": 3,
+        "actions": [
+          "Step 3: Pop D from the stack and visit it.",
+          "D has a neighbor E, which is unvisited. Push E onto the stack. Stack now has E and C."
+        ],
+        "state": {
+          "stack": ["E", "C"],
+          "visited": ["A", "B", "D"],
+          "predecessor": { "A": null, "B": "A", "C": "A", "D": "B", "E": "D" },
+          "order": ["A", "B", "D"]
+        },
+        "next_suggestion": "E"
+      },
+      {
+        "step_number": 4,
+        "actions": [
+          "Step 4: Pop E from the stack and visit it.",
+          "E has no new neighbors to explore. The stack now has C."
+        ],
+        "state": {
+          "stack": ["C"],
+          "visited": ["A", "B", "D", "E"],
+          "predecessor": { "A": null, "B": "A", "C": "A", "D": "B", "E": "D" },
+          "order": ["A", "B", "D", "E"]
+        },
+        "next_suggestion": "C"
+      },
+      {
+        "step_number": 5,
+        "actions": [
+          "Step 5: Pop C from the stack and visit it.",
+          "C has neighbor D, which is already visited. Stack is now empty, and DFS traversal is complete."
+        ],
+        "state": {
+          "stack": [],
+          "visited": ["A", "B", "D", "E", "C"],
+          "predecessor": { "A": null, "B": "A", "C": "A", "D": "B", "E": "D" },
+          "order": ["A", "B", "D", "E", "C"]
+        },
+        "next_suggestion": null
+      }
+    ]
+  }
+}

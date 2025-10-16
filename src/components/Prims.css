@@ -1,0 +1,256 @@
+:root {
+  --bg-color: #ffffff;
+  --text-color: #222;
+  --primary-color: #3498db;
+  --secondary-color: #f9f9f9;
+  --node-color: lightblue;
+  --visited-color: lightgreen;
+  --mst-color: #2ecc71;
+  --candidate-color: orange;
+  --stroke-color: #fff;
+  --ai-color: orange;
+}
+
+body.dark,
+.graph-outer.dark {
+  --bg-color: #1e1e1e;
+  --text-color: #e0e0e0;
+  --primary-color: #9b59b6;
+  --secondary-color: #2c2c2c;
+  --node-color: #2980b9;
+  --visited-color: #27ae60;
+  --mst-color: #27ae60;
+  --candidate-color: #f39c12;
+  --stroke-color: #444;
+  --ai-color: #f39c12;
+}
+
+.graph-outer {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  transition: background-color 0.5s, color 0.5s;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 20px;
+}
+
+/* Header with centered title and theme toggle */
+.graph-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 2.2rem;
+  color: var(--primary-color);
+}
+
+.theme-toggle {
+  position: absolute;
+  right: 0;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background 0.3s, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.theme-toggle:hover {
+  transform: scale(1.05);
+  filter: brightness(0.95);
+}
+
+/* Layout panels */
+.graph-and-controls {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.left-panel {
+  flex: 2;
+  min-width: 400px;
+}
+
+.right-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 300px;
+}
+
+.graph-controls {
+  margin-bottom: 12px;
+}
+
+.graph-controls button {
+  margin-right: 10px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.graph-controls button:hover {
+  filter: brightness(0.9);
+}
+
+/* SVG Graph Styling */
+svg {
+  border-radius: 10px;
+  background-color: var(--secondary-color);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.5s;
+}
+
+circle {
+  transition: fill 0.3s, stroke 0.3s, r 0.3s, transform 0.3s;
+  transform-origin: center;
+}
+
+circle:hover {
+  stroke-width: 6;
+  stroke: var(--primary-color);
+  cursor: pointer;
+  filter: drop-shadow(0 0 4px var(--primary-color));
+}
+
+text {
+  font-size: 14px;
+  font-weight: bold;
+  pointer-events: none;
+}
+
+/* Highlight animations for MST edges */
+line {
+  transition: stroke 0.3s, stroke-dasharray 0.3s;
+}
+
+.highlight-edge {
+  stroke-dasharray: 6 6;
+  animation: dash 1.5s linear infinite;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 12;
+  }
+}
+
+/* Explanation Section */
+.explanation {
+  background-color: var(--secondary-color);
+  padding: 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  text-align: left;
+}
+
+.ai-suggestion {
+  color: var(--ai-color);
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+/* Card and pseudocode */
+.card {
+  background-color: var(--secondary-color);
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+  margin-top: 0;
+  color: var(--primary-color);
+}
+
+.pseudocode-card pre {
+  font-size: 1rem;
+  line-height: 1.5;
+  font-family: 'Fira Code', monospace;
+  background: #2d2d2d;
+  color: #f8f8f2;
+  padding: 10px;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+/* State Panel */
+.state-panel {
+  margin: 20px auto;
+  padding: 15px 20px;
+  max-width: 400px;
+  background-color: var(--secondary-color, #f9f9f9);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.state-panel h3 {
+  margin-bottom: 12px;
+  color: var(--primary-color, #3498db);
+  font-size: 1.2rem;
+}
+
+.state-panel p {
+  margin: 6px 0;
+}
+
+.state-panel ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 4px 0 10px 0;
+}
+
+.state-panel li {
+  margin-bottom: 4px;
+  font-size: 0.95rem;
+}
+
+/* Bottom panel transcript */
+.bottom-panel {
+  margin-top: 30px;
+  padding: 10px 0;
+  text-align: left;
+}
+
+.bottom-panel h3 {
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+.bottom-panel ol {
+  padding-left: 20px;
+}
+
+.bottom-panel li {
+  margin-bottom: 6px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .graph-and-controls {
+    flex-direction: column;
+  }
+
+  .theme-toggle {
+    position: static;
+    margin-top: 10px;
+  }
+}
