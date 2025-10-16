@@ -175,20 +175,23 @@ const GraphVisualizer: React.FC = () => {
 
     // Tick update
     simulation.on("tick", () => {
-      link
-        .attr("x1", (d: any) => (d.source as any).x)
-        .attr("y1", (d: any) => (d.source as any).y)
-        .attr("x2", (d: any) => (d.target as any).x)
-        .attr("y2", (d: any) => (d.target as any).y);
+  d3.select(svgRef.current)
+    .selectAll<SVGLineElement, any>(".links line")
+    .attr("x1", (d) => (d.source as Node).x!)
+    .attr("y1", (d) => (d.source as Node).y!)
+    .attr("x2", (d) => (d.target as Node).x!)
+    .attr("y2", (d) => (d.target as Node).y!);
 
-      node
-        .attr("cx", (d: any) => d.x!)
-        .attr("cy", (d: any) => d.y!);
+  d3.select(svgRef.current)
+    .selectAll<SVGCircleElement, any>(".nodes circle")
+    .attr("cx", (d) => d.x!)
+    .attr("cy", (d) => d.y!);
 
-      label
-        .attr("x", (d: any) => d.x!)
-        .attr("y", (d: any) => d.y!);
-    });
+  d3.select(svgRef.current)
+    .selectAll<SVGTextElement, any>(".labels text")
+    .attr("x", (d) => d.x!)
+    .attr("y", (d) => d.y!);
+});
 
     // Speak explanation
     speak(steps[stepIndex].actions[explanationLevel]);

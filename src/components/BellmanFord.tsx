@@ -2,8 +2,16 @@ import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import bellmanData from "../data/bellmanford.json";
 import { speak } from "../utils/AudioUtils";
-import "./BellmanFord.css";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import "./BellmanFordVisualizer.css";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 interface Node {
   id: string;
@@ -38,18 +46,25 @@ const BellmanFordVisualizer: React.FC = () => {
 
   const steps: Step[] = bellmanData.meta.steps;
   const nodes: Node[] = bellmanData.input.nodes.map((id: string) => ({ id }));
-  const edges: Edge[] = bellmanData.input.edges.map(([s, t, w]: [string, string, number]) => ({
-    source: s,
-    target: t,
-    weight: w,
-  }));
+  const edges: Edge[] = bellmanData.input.edges.map(
+    ([s, t, w]: [string, string, number]) => ({
+      source: s,
+      target: t,
+      weight: w,
+    })
+  );
+
+  // Persistent sets for visited state
+  const settledNodesRef = useRef<Set<string>>(new Set());
+  const settledEdgesRef = useRef<Set<string>>(new Set());
+  const prevStepIndexRef = useRef<number>(0);
 
   // Theme handling
   useEffect(() => {
     document.body.classList.toggle("dark", theme === "dark");
   }, [theme]);
 
-  // D3 Visualization
+  // D3 Graph Initialization
   useEffect(() => {
     const width = 600;
     const height = 400;
@@ -57,7 +72,9 @@ const BellmanFordVisualizer: React.FC = () => {
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
 
-    const container = svg.append("g").attr("class", "graph-container-group");
+    const container = svg
+      .append("g")
+      .attr("class", "bellmanford-container-group");
 
     // Zoom support
     const zoom = d3
@@ -66,7 +83,7 @@ const BellmanFordVisualizer: React.FC = () => {
       .on("zoom", (event) => container.attr("transform", event.transform));
     svg.call(zoom as any);
 
-    // Position nodes in circle
+    // Arrange nodes in circle
     nodes.forEach((node, i) => {
       const angle = (2 * Math.PI * i) / nodes.length;
       node.x = width / 2 + 120 * Math.cos(angle);
@@ -78,14 +95,17 @@ const BellmanFordVisualizer: React.FC = () => {
       .alpha(1)
       .alphaDecay(0.9)
       .velocityDecay(0.2)
-      .force("link", d3.forceLink(edges as any).id((d: any) => d.id).distance(160))
+      .force(
+        "link",
+        d3.forceLink(edges as any).id((d: any) => d.id).distance(160)
+      )
       .force("charge", d3.forceManyBody().strength(-250))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force("collision", d3.forceCollide(50));
 
     const link = container
       .append("g")
-      .attr("class", "links")
+      .attr("class", "bellmanford-links")
       .selectAll("line")
       .data(edges)
       .enter()
@@ -95,22 +115,14 @@ const BellmanFordVisualizer: React.FC = () => {
 
     const node = container
       .append("g")
-      .attr("class", "nodes")
+      .attr("class", "bellmanford-nodes")
       .selectAll("circle")
       .data(nodes)
       .enter()
       .append("circle")
       .attr("r", 20)
-      .attr("fill", (d) =>
-        steps[stepIndex].state.predecessor[d.id] || d.id === bellmanData.input.start_node
-          ? "var(--visited-color)"
-          : "var(--node-color)"
-      )
-      .attr("stroke", (d) =>
-        steps[stepIndex].state.relaxed_edge?.includes(d.id)
-          ? "var(--ai-color)"
-          : "var(--stroke-color)"
-      )
+      .attr("fill", "var(--bellman-node-color)")
+      .attr("stroke", "var(--bellman-stroke-color)")
       .attr("stroke-width", 3)
       .call(
         d3
@@ -131,10 +143,9 @@ const BellmanFordVisualizer: React.FC = () => {
           })
       );
 
-    // Labels
     const label = container
       .append("g")
-      .attr("class", "labels")
+      .attr("class", "bellmanford-labels")
       .selectAll("text")
       .data(nodes)
       .enter()
@@ -145,7 +156,6 @@ const BellmanFordVisualizer: React.FC = () => {
       .attr("fill", "var(--text-color)")
       .style("font-weight", "bold");
 
-    // Tooltip for distances
     node.append("title").text((d) => {
       const state = steps[stepIndex].state;
       return `${d.id}\nDistance: ${
@@ -164,14 +174,102 @@ const BellmanFordVisualizer: React.FC = () => {
 
       label.attr("x", (d: any) => d.x!).attr("y", (d: any) => d.y!);
     });
+  }, []);
 
-    speak(steps[stepIndex].actions[explanationLevel]);
-  }, [stepIndex, explanationLevel, theme]);
+  // Step-by-step update logic
+  useEffect(() => {
+    if (!svgRef.current) return;
+    const svg = d3.select(svgRef.current);
+
+    const curr = steps[stepIndex];
+    const prev = steps[prevStepIndexRef.current];
+
+    // detect newly settled nodes
+    const newlySettledNodes: string[] = [];
+    Object.keys(curr.state.predecessor).forEach((nid) => {
+      const prevPred = prev?.state?.predecessor?.[nid];
+      const currPred = curr.state.predecessor[nid];
+      if (!prevPred && currPred) {
+        newlySettledNodes.push(nid);
+      }
+    });
+
+    // edges from those nodes
+    const newlySettledEdges: string[] = [];
+    newlySettledNodes.forEach((v) => {
+      const u = curr.state.predecessor[v];
+      if (u) newlySettledEdges.push(`${u}->${v}`);
+    });
+
+    // persist visited
+    newlySettledNodes.forEach((n) => settledNodesRef.current.add(n));
+    newlySettledEdges.forEach((e) => settledEdgesRef.current.add(e));
+
+    const candidateEdge = curr.state.relaxed_edge
+      ? `${curr.state.relaxed_edge[0]}->${curr.state.relaxed_edge[1]}`
+      : null;
+
+    // update nodes
+    svg
+      .selectAll<SVGCircleElement, any>(".bellmanford-nodes circle")
+      .attr("fill", (d: any) =>
+        settledNodesRef.current.has(d.id) ||
+        d.id === bellmanData.input.start_node
+          ? "var(--bellman-visited-color)"
+          : "var(--bellman-node-color)"
+      )
+      .attr("stroke", (d: any) => {
+        if (candidateEdge) {
+          const [u, v] = candidateEdge.split("->");
+          if (d.id === u || d.id === v) return "var(--bellman-ai-color)";
+        }
+        return "var(--bellman-stroke-color)";
+      });
+
+    // update edges
+    svg
+      .selectAll<SVGLineElement, any>(".bellmanford-links line")
+      .attr("stroke", (d: any) => {
+        const u = typeof d.source === "object" ? d.source.id : d.source;
+        const v = typeof d.target === "object" ? d.target.id : d.target;
+        const key = `${u}->${v}`;
+        const keyRev = `${v}->${u}`;
+
+        if (
+          settledEdgesRef.current.has(key) ||
+          settledEdgesRef.current.has(keyRev)
+        )
+          return "var(--bellman-visited-color)";
+        if (candidateEdge === key || candidateEdge === keyRev)
+          return "var(--bellman-ai-color)";
+        return "#999";
+      })
+      .attr("stroke-width", (d: any) => {
+        const u = typeof d.source === "object" ? d.source.id : d.source;
+        const v = typeof d.target === "object" ? d.target.id : d.target;
+        const key = `${u}->${v}`;
+        const keyRev = `${v}->${u}`;
+        if (
+          settledEdgesRef.current.has(key) ||
+          settledEdgesRef.current.has(keyRev)
+        )
+          return 4;
+        if (candidateEdge === key || candidateEdge === keyRev) return 3.5;
+        return 2;
+      });
+
+    prevStepIndexRef.current = stepIndex;
+
+    // speak explanation
+    speak(curr.actions[explanationLevel]);
+  }, [stepIndex, explanationLevel, theme, steps]);
 
   const step = steps[stepIndex];
-
   const complexityData = [
-    { name: "Time Complexity", value: bellmanData.input.nodes.length * bellmanData.input.edges.length },
+    {
+      name: "Time Complexity",
+      value: bellmanData.input.nodes.length * bellmanData.input.edges.length,
+    },
     { name: "Space Complexity", value: bellmanData.input.nodes.length },
   ];
 
@@ -192,18 +290,18 @@ const BellmanFordVisualizer: React.FC = () => {
       <div className="graph-and-controls">
         <div className="left-panel">
           <div className="graph-controls">
-            <button onClick={() => setStepIndex((prev) => Math.max(prev - 1, 0))}>
+            <button onClick={() => setStepIndex((p) => Math.max(p - 1, 0))}>
               ⏮️ Prev
             </button>
             <button
               onClick={() =>
-                setStepIndex((prev) => Math.min(prev + 1, steps.length - 1))
+                setStepIndex((p) => Math.min(p + 1, steps.length - 1))
               }
             >
               ⏭️ Next
             </button>
             <button
-              onClick={() => setExplanationLevel((prev) => (prev === 0 ? 1 : 0))}
+              onClick={() => setExplanationLevel((p) => (p === 0 ? 1 : 0))}
             >
               📘 {explanationLevel === 0 ? "Beginner" : "Advanced"}
             </button>
@@ -216,7 +314,8 @@ const BellmanFordVisualizer: React.FC = () => {
             <ul>
               {Object.entries(step.state.distances).map(([node, dist]) => (
                 <li key={node}>
-                  {node}: {dist === Infinity ? "∞" : dist} | Predecessor: {step.state.predecessor[node] ?? "None"}
+                  {node}: {dist === Infinity ? "∞" : dist} | Predecessor:{" "}
+                  {step.state.predecessor[node] ?? "None"}
                 </li>
               ))}
             </ul>
@@ -249,7 +348,10 @@ const BellmanFordVisualizer: React.FC = () => {
           <div className="card complexity-card">
             <h3>Complexity Graph</h3>
             <ResponsiveContainer width="100%" height={200}>
-              <BarChart data={complexityData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+              <BarChart
+                data={complexityData}
+                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 <YAxis />

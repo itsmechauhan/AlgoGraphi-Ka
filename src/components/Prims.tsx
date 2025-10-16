@@ -29,7 +29,7 @@ interface Step {
   next_suggestion: string | null;
 }
 
-const PrimVisualizer: React.FC = () => {
+const Prims: React.FC = () => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const [stepIndex, setStepIndex] = useState(0);
   const [explanationLevel, setExplanationLevel] = useState<0 | 1>(0);
