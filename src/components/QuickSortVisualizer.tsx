@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import quickSortData from "../data/quickSort.json";
-import { speak } from "../utils/AudioUtils";
+import { speak } from "../utils/audioUtils";
 import "./QuickSortVisualizer.css";
 
 interface ArrayElement {

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import dfsData from "../data/dfs.json";
-import { speak } from "../utils/AudioUtils";
+import { speak } from "../utils/audioUtils";
 import "./DFSGraphVisualizer.css";
 
 interface Node {
@@ -23,7 +23,7 @@ interface Step {
   state: {
     stack: string[];
     visited: string[];
-    predecessor: Record<string, string | null>;
+    predecessor: Record<string, string | null | undefined>;
     order?: string[];
   };
   next_suggestion: string | null;
@@ -39,10 +39,10 @@ const DFSGraphVisualizer: React.FC = () => {
 
   const steps: Step[] = dfsData.meta.steps;
   const nodes: Node[] = dfsData.input.nodes.map((id: string) => ({ id }));
-  const edges: Edge[] = dfsData.input.edges.map(([s, t]: [string, string]) => ({
-    source: s,
-    target: t,
-  }));
+  const edges: Edge[] = dfsData.input.edges.map((pair: string[]) => {
+    const [s, t] = pair as [string, string];
+    return { source: s, target: t };
+  });
 
   // Theme handling
   useEffect(() => {

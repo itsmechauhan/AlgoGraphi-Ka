@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import floydData from "../data/FloydWarshall.json"; // put your Floyd-Warshall JSON here
-import { speak } from "../utils/AudioUtils";
+import { speak } from "../utils/audioUtils";
 import "./FloydWarshall.css";
 
 interface Node {
@@ -23,7 +23,7 @@ interface Step {
   actions: string[];
   state: {
     // distances can be nested {A: {A:0, B:6}} or flat {"A-B":6}
-    distances: Record<string, any>;
+    distances?: Record<string, any>;
     k?: string | null; // current intermediate node if provided
     // optionally the step may include the explicitly updated cell like ["A","B"]
     updated_cell?: [string, string] | null;
@@ -37,7 +37,7 @@ const FloydWarshallVisualizer: React.FC = () => {
   const [explanationLevel, setExplanationLevel] = useState<0 | 1>(0);
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
-  const steps: Step[] = floydData.steps;
+  const steps: Step[] = (floydData.steps as unknown) as Step[];
   const nodes: Node[] = floydData.input.nodes.map((id: string) => ({ id }));
   const edges: Edge[] = []; // Floyd-Warshall doesn't use edges, it uses matrix
 
@@ -235,8 +235,18 @@ const FloydWarshallVisualizer: React.FC = () => {
   // render matrix table (right panel)
   function renderMatrix(stepIdx: number) {
     const step = steps[stepIdx];
+    if (!step.state.distances) {
+      return (
+        <div className="card" style={{ overflowX: "auto" }}>
+          <h3>Distance Matrix</h3>
+          <p>No distance matrix provided for this step.</p>
+        </div>
+      );
+    }
     const currMatrix = parseDistances(step.state.distances);
-    const prevMatrix = stepIdx > 0 ? parseDistances(steps[stepIdx - 1].state.distances) : null;
+    const prevMatrix = stepIdx > 0 && steps[stepIdx - 1].state.distances
+      ? parseDistances(steps[stepIdx - 1].state.distances)
+      : null;
     const explicit = step.state.updated_cell ?? null;
     const inferred = detectUpdatedCell(
       stepIdx > 0 ? steps[stepIdx - 1].state.distances : null,

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import linearSearchData from "../data/linearSearch.json";
-import { speak } from "../utils/AudioUtils";
+import { speak } from "../utils/audioUtils";
 import "./LinearSearchVisualizer.css";
 
 interface ArrayElement {

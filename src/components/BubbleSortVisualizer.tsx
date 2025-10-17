@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import bubbleSortData from "../data/bubbleSort.json";
-import { speak } from "../utils/AudioUtils";
+import { speak } from "../utils/audioUtils";
 import "./BubbleSortVisualizer.css";
 
 interface ArrayElement {
@@ -21,7 +21,7 @@ interface Step {
     current_comparison: number;
     swapped: boolean;
     array: number[];
-    comparing: number[];
+    comparing?: number[];
     sorted_count: number;
   };
   next_suggestion: string | null;
@@ -83,7 +83,7 @@ const BubbleSortVisualizer: React.FC = () => {
       .attr("fill", (d: ArrayElement) => {
         const currentStep = steps[stepIndex];
         // Check if element is being compared
-        if (currentStep.state.comparing.includes(d.index)) {
+        if (currentStep.state.comparing?.includes(d.index) ?? false) {
           return currentStep.state.swapped ? "var(--swapped-color)" : "var(--comparing-color)";
         }
         // Check if element is sorted (in final position)
@@ -94,14 +94,14 @@ const BubbleSortVisualizer: React.FC = () => {
       })
       .attr("stroke", (d: ArrayElement) => {
         const currentStep = steps[stepIndex];
-        if (currentStep.state.comparing.includes(d.index)) {
+        if (currentStep.state.comparing?.includes(d.index) ?? false) {
           return "var(--ai-color)";
         }
         return "var(--stroke-color)";
       })
       .attr("stroke-width", (d: ArrayElement) => {
         const currentStep = steps[stepIndex];
-        return currentStep.state.comparing.includes(d.index) ? 4 : 2;
+        return (currentStep.state.comparing?.includes(d.index) ?? false) ? 4 : 2;
       })
       .attr("rx", 5)
       .attr("ry", 5)
@@ -149,8 +149,8 @@ const BubbleSortVisualizer: React.FC = () => {
       .style("font-size", "12px");
 
     // Add comparison arrows between elements being compared
-    if (currentStep.state.comparing.length === 2) {
-      const [leftIdx, rightIdx] = currentStep.state.comparing;
+    if ((currentStep.state.comparing?.length ?? 0) === 2) {
+      const [leftIdx, rightIdx] = currentStep.state.comparing as number[];
       const leftElement = elements[leftIdx];
       const rightElement = elements[rightIdx];
       
@@ -215,8 +215,8 @@ const BubbleSortVisualizer: React.FC = () => {
     }
 
     // Add swap indicator if swap occurred
-    if (currentStep.state.swapped && currentStep.state.comparing.length === 2) {
-      const [leftIdx, rightIdx] = currentStep.state.comparing;
+    if (currentStep.state.swapped && (currentStep.state.comparing?.length ?? 0) === 2) {
+      const [leftIdx, rightIdx] = currentStep.state.comparing as number[];
       const leftElement = elements[leftIdx];
       const rightElement = elements[rightIdx];
       
@@ -245,7 +245,7 @@ const BubbleSortVisualizer: React.FC = () => {
     bars.append("title").text((d: ArrayElement) => {
       const currentStep = steps[stepIndex];
       let status = "";
-      if (currentStep.state.comparing.includes(d.index)) {
+      if (currentStep.state.comparing?.includes(d.index) ?? false) {
         status = currentStep.state.swapped ? "Swapped! 🔄" : "Comparing 🔍";
       } else if (d.index >= currentArray.length - currentStep.state.sorted_count) {
         status = "Sorted ✅";
@@ -307,7 +307,7 @@ const BubbleSortVisualizer: React.FC = () => {
             <h3>Bubble Sort State (Step {stepIndex + 1})</h3>
             <p><strong>Current Pass:</strong> {step.state.current_pass}</p>
             <p><strong>Current Comparison:</strong> {step.state.current_comparison}</p>
-            <p><strong>Comparing:</strong> {step.state.comparing.length > 0 ? `Indices ${step.state.comparing.join(" and ")}` : "None"}</p>
+            <p><strong>Comparing:</strong> {(step.state.comparing?.length ?? 0) > 0 ? `Indices ${(step.state.comparing ?? []).join(" and ")}` : "None"}</p>
             <p><strong>Swapped:</strong> {step.state.swapped ? "Yes 🔄" : "No ❌"}</p>
             <p><strong>Sorted Elements:</strong> {step.state.sorted_count}</p>
             <p><strong>Current Array:</strong> [{step.state.array.join(", ")}]</p>
