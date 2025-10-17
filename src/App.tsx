@@ -11,15 +11,13 @@ import BubbleSortVisualizer from "./components/BubbleSortVisualizer";
 import SelectionSortVisualizer from "./components/SelectionSortVisualizer";
 import InsertionSortVisualizer from "./components/InsertionSortVisualizer";
 import QuickSortVisualizer from "./components/QuickSortVisualizer";
-import MergeSortVisualizer from "./components/MergeSortVisualizer";
+import MergeSortTreeVisualizer from "./components/MergeSortTreeVisualizer";
+import LinkedListTraversal from "./components/LinkedListTraversal";
 import "./App.css";
 
 const App: React.FC = () => {
   return (
     <Router>
-
-      
-
         <Routes>
           <Route path="/" element={<BFSGraphVisualizer />} />
           <Route path="/bfs" element={<BFSGraphVisualizer />} />
@@ -33,8 +31,10 @@ const App: React.FC = () => {
           <Route path="/selection-sort" element={<SelectionSortVisualizer />} />
           <Route path="/insertion-sort" element={<InsertionSortVisualizer />} />
           <Route path="/quick-sort" element={<QuickSortVisualizer />} />
-          <Route path="/merge-sort" element={<MergeSortVisualizer />} />
-        </Routes>
+                  <Route path="/merge-sort" element={<MergeSortTreeVisualizer />} />
+                  <Route path="/merge-sort-tree" element={<MergeSortTreeVisualizer />} />
+                  <Route path="/linked-list" element={<LinkedListTraversal />} />
+                </Routes>
 
     </Router>
   );

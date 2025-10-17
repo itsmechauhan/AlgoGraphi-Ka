@@ -113,6 +113,33 @@ svg {
   transition: background-color 0.5s;
 }
 
+circle {
+  transition: fill 0.3s, stroke 0.3s;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+circle:hover {
+  stroke: var(--primary-color);
+  stroke-width: 4;
+  cursor: pointer;
+  filter: drop-shadow(0 0 8px var(--primary-color)) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+  transform: translateY(-2px);
+}
+
+/* Floating animation for nodes */
+circle.floating {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
 /* Matrix Table */
 .card table {
   width: 100%;

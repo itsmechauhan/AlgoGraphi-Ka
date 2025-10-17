@@ -33,7 +33,7 @@ interface Step {
   state: {
     distances: Record<string, number>;
     predecessor: Record<string, string | null>;
-    relaxed_edge: [string, string] | null;
+    relaxed_edge: string[] | null;
   };
   next_suggestion: string | null;
 }
@@ -47,10 +47,10 @@ const BellmanFordVisualizer: React.FC = () => {
   const steps: Step[] = bellmanData.meta.steps;
   const nodes: Node[] = bellmanData.input.nodes.map((id: string) => ({ id }));
   const edges: Edge[] = bellmanData.input.edges.map(
-    ([s, t, w]: [string, string, number]) => ({
-      source: s,
-      target: t,
-      weight: w,
+    (edge: (string | number)[]) => ({
+      source: edge[0] as string,
+      target: edge[1] as string,
+      weight: edge[2] as number,
     })
   );
 
@@ -80,7 +80,7 @@ const BellmanFordVisualizer: React.FC = () => {
     const zoom = d3
       .zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.5, 1])
-      .on("zoom", (event) => container.attr("transform", event.transform));
+      .on("zoom", (event: any) => container.attr("transform", event.transform));
     svg.call(zoom as any);
 
     // Arrange nodes in circle
@@ -124,19 +124,20 @@ const BellmanFordVisualizer: React.FC = () => {
       .attr("fill", "var(--bellman-node-color)")
       .attr("stroke", "var(--bellman-stroke-color)")
       .attr("stroke-width", 3)
+      .attr("class", "floating")
       .call(
         d3
           .drag<SVGCircleElement, Node>()
-          .on("start", (event, d) => {
+          .on("start", (event: any, d: any) => {
             if (!event.active) simulation.alphaTarget(0.3).restart();
             d.fx = d.x;
             d.fy = d.y;
           })
-          .on("drag", (event, d) => {
+          .on("drag", (event: any, d: any) => {
             d.fx = event.x;
             d.fy = event.y;
           })
-          .on("end", (event, d) => {
+          .on("end", (event: any, d: any) => {
             if (!event.active) simulation.alphaTarget(0);
             d.fx = null;
             d.fy = null;
@@ -150,7 +151,7 @@ const BellmanFordVisualizer: React.FC = () => {
       .data(nodes)
       .enter()
       .append("text")
-      .text((d) => d.id)
+      .text((d: any) => d.id)
       .attr("text-anchor", "middle")
       .attr("dy", 5)
       .attr("fill", "var(--text-color)")

@@ -23,8 +23,8 @@ interface Step {
   actions: string[];
   state: {
     mst_nodes: string[];
-    mst_edges: [string, string][];
-    candidate_edges: [string, string, number][];
+    mst_edges: string[][];
+    candidate_edges: (string | number)[][];
   };
   next_suggestion: string | null;
 }
@@ -36,12 +36,18 @@ const Prims: React.FC = () => {
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
   const steps: Step[] = primsData.meta.steps;
-  const nodes: Node[] = primsData.input.nodes.map((id: string) => ({ id }));
+  const nodes: Node[] = primsData.input.nodes.map((id: string) => ({ 
+    id,
+    x: undefined,
+    y: undefined,
+    fx: null,
+    fy: null
+  }));
   const edges: Edge[] = primsData.input.edges.map(
-    ([s, t, w]: [string, string, number]) => ({
-      source: s,
-      target: t,
-      weight: w,
+    (edge: (string | number)[]) => ({
+      source: edge[0] as string,
+      target: edge[1] as string,
+      weight: edge[2] as number,
     })
   );
 
@@ -56,6 +62,7 @@ const Prims: React.FC = () => {
   useEffect(() => {
     if (!svgRef.current) return;
     const svg = d3.select(svgRef.current);
+    svg.selectAll("*").remove(); // Clear any existing content
     const width = 600;
     const height = 400;
 
@@ -65,10 +72,10 @@ const Prims: React.FC = () => {
     const zoom = d3
       .zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.5, 1.5])
-      .on("zoom", (event) => container.attr("transform", event.transform));
+      .on("zoom", (event: any) => container.attr("transform", event.transform));
     svg.call(zoom as any);
 
-    // Node positions (persistent)
+    // Node positions (persistent) - ensure unique positions
     nodes.forEach((node, i) => {
       const saved = positionsRef.current[node.id];
       if (saved) {
@@ -80,6 +87,9 @@ const Prims: React.FC = () => {
         node.y = height / 2 + 140 * Math.sin(angle);
         positionsRef.current[node.id] = { x: node.x, y: node.y };
       }
+      // Ensure fx and fy are null for free movement
+      node.fx = null;
+      node.fy = null;
     });
 
     // Link edges to node objects
@@ -89,7 +99,7 @@ const Prims: React.FC = () => {
       target: nodes.find((n) => n.id === e.target)!,
     }));
 
-    // Simulation (run once to space things)
+    // Simulation with continuous updates
     const simulation = d3
       .forceSimulation(nodes as any)
       .force(
@@ -102,13 +112,12 @@ const Prims: React.FC = () => {
       .force("charge", d3.forceManyBody().strength(-300))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force("collision", d3.forceCollide(40))
-      .stop();
-
-    simulation.tick(300);
-    simulation.stop();
+      .alpha(0.1)
+      .alphaDecay(0.9)
+      .velocityDecay(0.2);
 
     // Draw links
-    container
+    const link = container
       .append("g")
       .attr("class", "links")
       .selectAll("line")
@@ -119,7 +128,7 @@ const Prims: React.FC = () => {
       .attr("stroke", "#999");
 
     // Draw nodes
-    container
+    const node = container
       .append("g")
       .attr("class", "nodes")
       .selectAll("circle")
@@ -130,36 +139,42 @@ const Prims: React.FC = () => {
       .attr("fill", "var(--node-color)")
       .attr("stroke", "var(--stroke-color)")
       .attr("stroke-width", 3)
-      .attr("cx", (d) => d.x!)
-      .attr("cy", (d) => d.y!)
+      .attr("class", "floating")
       .call(
         d3
           .drag<SVGCircleElement, Node>()
-          .on("drag", (event, d) => {
-            d3.select(event.sourceEvent.target)
-              .attr("cx", (d.x = event.x))
-              .attr("cy", (d.y = event.y));
-            positionsRef.current[d.id] = { x: d.x!, y: d.y! };
+          .on("start", (event: any, d: any) => {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+          })
+          .on("drag", (event: any, d: any) => {
+            d.fx = event.x;
+            d.fy = event.y;
+          })
+          .on("end", (event: any, d: any) => {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
           })
       );
 
     // Labels
-    container
+    const label = container
       .append("g")
       .attr("class", "labels")
       .selectAll("text")
       .data(nodes)
       .enter()
       .append("text")
-      .text((d) => d.id)
-      .attr("x", (d) => d.x!)
-      .attr("y", (d) => d.y! + 5)
+      .text((d: any) => d.id)
       .attr("text-anchor", "middle")
+      .attr("dy", 5)
       .attr("fill", "var(--text-color)")
       .style("font-weight", "bold");
 
     // Edge weights
-    container
+    const edgeLabel = container
       .append("g")
       .attr("class", "edge-labels")
       .selectAll("text")
@@ -169,8 +184,29 @@ const Prims: React.FC = () => {
       .text((d: any) => d.weight)
       .attr("font-size", 12)
       .attr("fill", "var(--text-color)")
-      .attr("x", (d: any) => (d.source.x! + d.target.x!) / 2)
-      .attr("y", (d: any) => (d.source.y! + d.target.y!) / 2);
+      .attr("text-anchor", "middle");
+
+    // Simulation tick event for continuous updates
+    simulation.on("tick", () => {
+      link
+        .attr("x1", (d: any) => (d.source as any).x)
+        .attr("y1", (d: any) => (d.source as any).y)
+        .attr("x2", (d: any) => (d.target as any).x)
+        .attr("y2", (d: any) => (d.target as any).y);
+
+      node.attr("cx", (d: any) => d.x!).attr("cy", (d: any) => d.y!);
+
+      label.attr("x", (d: any) => d.x!).attr("y", (d: any) => d.y!);
+
+      edgeLabel
+        .attr("x", (d: any) => ((d.source as any).x + (d.target as any).x) / 2)
+        .attr("y", (d: any) => ((d.source as any).y + (d.target as any).y) / 2);
+    });
+
+    // Cleanup function
+    return () => {
+      simulation.stop();
+    };
   }, []); // <-- run only once
 
   // 2️⃣ Update highlights and audio (on step change)
@@ -183,7 +219,7 @@ const Prims: React.FC = () => {
     // Highlight edges
     d3.select(svgRef.current)
       .selectAll<SVGLineElement, any>(".links line")
-      .attr("stroke", (d) => {
+      .attr("stroke", (d: any) => {
         const key1 = `${d.source.id}-${d.target.id}`;
         const key2 = `${d.target.id}-${d.source.id}`;
         return mstEdgeSet.has(key1) || mstEdgeSet.has(key2)
@@ -194,16 +230,20 @@ const Prims: React.FC = () => {
     // Highlight nodes
     d3.select(svgRef.current)
       .selectAll<SVGCircleElement, any>(".nodes circle")
-      .attr("fill", (d) =>
+      .attr("fill", (d: any) =>
         step.state.mst_nodes.includes(d.id)
           ? "var(--visited-color)"
           : "var(--node-color)"
       )
-      .attr("stroke", (d) =>
+      .attr("stroke", (d: any) =>
         d.id === step.next_suggestion
           ? "var(--ai-color)"
           : "var(--stroke-color)"
-      );
+      )
+      .attr("class", (d: any) => {
+        const baseClass = "floating";
+        return step.state.mst_nodes.includes(d.id) ? `${baseClass} mst-node` : baseClass;
+      });
 
     speak(step.actions[explanationLevel]);
   }, [stepIndex, explanationLevel, theme]);
@@ -244,7 +284,7 @@ const Prims: React.FC = () => {
             </button>
           </div>
 
-          <svg ref={svgRef} width={600} height={400}></svg>
+          <svg ref={svgRef} width={600} height={400} key="prims-graph"></svg>
 
           <div className="state-panel card">
             <h3>Step {step.step_number}</h3>

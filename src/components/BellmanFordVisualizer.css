@@ -133,13 +133,29 @@
 
 .bellmanford circle {
   transition: fill 0.3s, stroke 0.3s, r 0.3s;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
 
 .bellmanford circle:hover {
   stroke: var(--bellman-primary-color);
   stroke-width: 4;
   cursor: pointer;
-  filter: drop-shadow(0 0 4px var(--bellman-primary-color));
+  filter: drop-shadow(0 0 8px var(--bellman-primary-color)) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+  transform: translateY(-2px);
+}
+
+/* Floating animation for nodes */
+.bellmanford circle.floating {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 .bellmanford text {

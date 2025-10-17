@@ -37,14 +37,9 @@ const FloydWarshallVisualizer: React.FC = () => {
   const [explanationLevel, setExplanationLevel] = useState<0 | 1>(0);
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
-  const steps: Step[] = floydData.meta.steps;
+  const steps: Step[] = floydData.steps;
   const nodes: Node[] = floydData.input.nodes.map((id: string) => ({ id }));
-  const edges: Edge[] =
-    floydData.input.edges?.map(([s, t, w]: [string, string, number]) => ({
-      source: s,
-      target: t,
-      weight: w,
-    })) ?? [];
+  const edges: Edge[] = []; // Floyd-Warshall doesn't use edges, it uses matrix
 
   // Theme handling (same pattern as BFS)
   useEffect(() => {
@@ -66,7 +61,7 @@ const FloydWarshallVisualizer: React.FC = () => {
     const zoom = d3
       .zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.5, 1.5])
-      .on("zoom", (event) => container.attr("transform", event.transform));
+      .on("zoom", (event: any) => container.attr("transform", event.transform));
     svg.call(zoom as any);
 
     // Position nodes on circle (stable)
@@ -107,19 +102,20 @@ const FloydWarshallVisualizer: React.FC = () => {
       .attr("fill", "var(--node-color)")
       .attr("stroke", "var(--stroke-color)")
       .attr("stroke-width", 2)
+      .attr("class", "floating")
       .call(
         d3
           .drag<SVGCircleElement, Node>()
-          .on("start", (event, d) => {
+          .on("start", (event: any, d: any) => {
             if (!event.active) simulation.alphaTarget(0.3).restart();
             d.fx = d.x;
             d.fy = d.y;
           })
-          .on("drag", (event, d) => {
+          .on("drag", (event: any, d: any) => {
             d.fx = event.x;
             d.fy = event.y;
           })
-          .on("end", (event, d) => {
+          .on("end", (event: any, d: any) => {
             if (!event.active) simulation.alphaTarget(0);
             d.fx = null;
             d.fy = null;
@@ -134,7 +130,7 @@ const FloydWarshallVisualizer: React.FC = () => {
       .data(nodes)
       .enter()
       .append("text")
-      .text((d) => d.id)
+      .text((d: any) => d.id)
       .attr("text-anchor", "middle")
       .attr("dy", 5)
       .attr("fill", "var(--text-color)")

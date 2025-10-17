@@ -110,6 +110,7 @@ const DFSGraphVisualizer: React.FC = () => {
       .attr("stroke-width", (d) =>
         d.id === steps[stepIndex].next_suggestion ? 6 : 3
       )
+      .attr("class", "floating")
       .on("click", (event, d) => {
         if (event.defaultPrevented) return;
         d.fx = d.x;

@@ -166,13 +166,45 @@ svg {
 circle {
   transition: fill 0.3s, stroke 0.3s, r 0.3s, transform 0.3s;
   transform-origin: center;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
 
 circle:hover {
   stroke: var(--primary-color);
   stroke-width: 4;
   cursor: pointer;
-  filter: drop-shadow(0 0 4px var(--primary-color));
+  filter: drop-shadow(0 0 8px var(--primary-color)) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+  transform: translateY(-2px);
+}
+
+/* Floating animation for nodes */
+circle.floating {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Pulsing effect for visited nodes */
+circle.visited {
+  animation: visitedPulse 2s ease-in-out infinite;
+}
+
+@keyframes visitedPulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  }
+  50% {
+    transform: scale(1.1);
+    filter: drop-shadow(0 6px 12px rgba(26, 188, 156, 0.4));
+  }
 }
 
 text {

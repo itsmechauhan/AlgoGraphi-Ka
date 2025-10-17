@@ -23,8 +23,8 @@ interface Step {
   state: {
     queue: string[];
     visited: string[];
-    predecessor: Record<string, string | null>;
-    level?: Record<string, number>;
+    predecessor: Record<string, string | null | undefined>;
+    level?: Record<string, number | undefined>;
     order?: string[];
   };
   next_suggestion: string | null;
@@ -38,9 +38,9 @@ const GraphVisualizer: React.FC = () => {
 
   const steps: Step[] = bfsData.meta.steps;
   const nodes: Node[] = bfsData.input.nodes.map((id: string) => ({ id }));
-  const edges: Edge[] = bfsData.input.edges.map(([s, t]: [string, string]) => ({
-    source: s,
-    target: t,
+  const edges: Edge[] = bfsData.input.edges.map((edge: string[]) => ({
+    source: edge[0],
+    target: edge[1],
   }));
 
   // Theme handling
@@ -62,7 +62,7 @@ const GraphVisualizer: React.FC = () => {
     const zoom = d3
       .zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.5, 1])
-      .on("zoom", (event) => container.attr("transform", event.transform));
+      .on("zoom", (event: any) => container.attr("transform", event.transform));
     svg.call(zoom as any);
 
     // Position nodes in circle
@@ -82,7 +82,7 @@ const GraphVisualizer: React.FC = () => {
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force("collision", d3.forceCollide(50));
 
-    const link = container
+    container
       .append("g")
       .attr("class", "links")
       .selectAll("line")
@@ -100,20 +100,21 @@ const GraphVisualizer: React.FC = () => {
       .enter()
       .append("circle")
       .attr("r", 20)
-      .attr("fill", (d) =>
+      .attr("fill", (d: any) =>
         steps[stepIndex].state.visited.includes(d.id)
           ? "var(--visited-color)"
           : "var(--node-color)"
       )
-      .attr("stroke", (d) =>
+      .attr("stroke", (d: any) =>
         d.id === steps[stepIndex].next_suggestion
           ? "var(--ai-color)"
           : "var(--stroke-color)"
       )
-      .attr("stroke-width", (d) =>
+      .attr("stroke-width", (d: any) =>
         d.id === steps[stepIndex].next_suggestion ? 6 : 3
       )
-      .on("click", (event, d) => {
+      .attr("class", "floating")
+      .on("click", (event: any, d: any) => {
         if (event.defaultPrevented) return;
         d.fx = d.x;
         d.fy = d.y;
@@ -132,16 +133,16 @@ const GraphVisualizer: React.FC = () => {
       .call(
         d3
           .drag<SVGCircleElement, Node>()
-          .on("start", (event, d) => {
+          .on("start", (event: any, d: any) => {
             if (!event.active) simulation.alphaTarget(0.3).restart();
             d.fx = d.x;
             d.fy = d.y;
           })
-          .on("drag", (event, d) => {
+          .on("drag", (event: any, d: any) => {
             d.fx = event.x;
             d.fy = event.y;
           })
-          .on("end", (event, d) => {
+          .on("end", (event: any, d: any) => {
             if (!event.active) simulation.alphaTarget(0);
             d.fx = null;
             d.fy = null;
@@ -149,21 +150,21 @@ const GraphVisualizer: React.FC = () => {
       );
 
     // Labels
-    const label = container
+    container
       .append("g")
       .attr("class", "labels")
       .selectAll("text")
       .data(nodes)
       .enter()
       .append("text")
-      .text((d) => d.id)
+      .text((d: any) => d.id)
       .attr("text-anchor", "middle")
       .attr("dy", 5)
       .attr("fill", "var(--text-color)")
       .style("font-weight", "bold");
 
     // Tooltips with BFS details
-    node.append("title").text((d) => {
+    node.append("title").text((d: any) => {
       const state = steps[stepIndex].state;
       const level = state.level?.[d.id];
       const pred = state.predecessor?.[d.id];
@@ -177,20 +178,20 @@ const GraphVisualizer: React.FC = () => {
     simulation.on("tick", () => {
   d3.select(svgRef.current)
     .selectAll<SVGLineElement, any>(".links line")
-    .attr("x1", (d) => (d.source as Node).x!)
-    .attr("y1", (d) => (d.source as Node).y!)
-    .attr("x2", (d) => (d.target as Node).x!)
-    .attr("y2", (d) => (d.target as Node).y!);
+    .attr("x1", (d: any) => (d.source as Node).x!)
+    .attr("y1", (d: any) => (d.source as Node).y!)
+    .attr("x2", (d: any) => (d.target as Node).x!)
+    .attr("y2", (d: any) => (d.target as Node).y!);
 
   d3.select(svgRef.current)
     .selectAll<SVGCircleElement, any>(".nodes circle")
-    .attr("cx", (d) => d.x!)
-    .attr("cy", (d) => d.y!);
+    .attr("cx", (d: any) => d.x!)
+    .attr("cy", (d: any) => d.y!);
 
   d3.select(svgRef.current)
     .selectAll<SVGTextElement, any>(".labels text")
-    .attr("x", (d) => d.x!)
-    .attr("y", (d) => d.y!);
+    .attr("x", (d: any) => d.x!)
+    .attr("y", (d: any) => d.y!);
 });
 
     // Speak explanation
