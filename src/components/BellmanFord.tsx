@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
-import bellmanData from "../data/bellmanford.json";
+import bellmanData from "../data/BellmanFord.json";
 import { speak } from "../utils/audioUtils";
 import "./BellmanFordVisualizer.css";
 import {
